@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+<robot name="robot">
+    <!-- Robot Footprint -->
+    <!-- <link name="base_footprint"/>
+
+    <joint name="base_joint" type="fixed">
+      <parent link="base_footprint"/>
+      <child link="base_link"/>
+      <origin xyz="0.0 0.0 0.07" rpy="0 0 0"/>
+    </joint> -->
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="-0.1 0 -0.0375" rpy="0 0 0" />
+            <geometry>
+                <box size="0.7 0.465 0.185" />
+            </geometry>
+            <material name="blue">
+                <color rgba="0 0 0.8 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="left_wheel_joint" type="continuous">
+        <origin xyz="-0.185 0 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="left_wheel_link"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="left_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="-1.57079 0 0" />
+            <geometry>
+                <cylinder radius="0.105" length = "0.05"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="right_wheel_joint" type="continuous">
+        <origin xyz="0.185 0 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="right_wheel_link"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="right_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="-1.57079 0 0" />
+            <geometry>
+                <cylinder radius="0.105" length = "0.05"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="caster_joint" type="fixed">
+        <origin xyz="0.37 0 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="front_caster_link"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="caster_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.105" />
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 0.95"/>
+            </material>
+        </visual>
+    </link>
+
+  <!-- laser joint -->
+    <joint name="laser_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="laser_link" />
+        <origin xyz="0 0 0.15" rpy="0 0 0"/>
+    </joint>
+
+  <!-- laser link -->
+  <link name="laser_link">
+      <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.035"/>
+      </geometry>
+      <material name="black">
+          <color rgba="0.0 0.0 0.0 0.8" /> 
+      </material>
+    </visual>
+  </link>
+
+  <!-- imu joint -->
+  <joint name="imu_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="imu_link" />
+      <origin xyz="0 0 0" />
+  </joint>
+
+  <!-- imu link -->
+  <link name="imu_link">
+      <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+            <box size="0.005 0.005 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+
+</robot>
+

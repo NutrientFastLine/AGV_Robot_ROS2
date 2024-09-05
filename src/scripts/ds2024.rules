@@ -1,0 +1,2 @@
+SUBSYSTEM=="tty", ATTRS{tty}=="ttyTHS1", SYMLINK+="ds2024_base"
+

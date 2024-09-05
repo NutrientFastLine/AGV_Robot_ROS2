@@ -46,7 +46,8 @@ class ImuNode(Node):
         self.angularVelocity = [0, 0, 0]
         self.acceleration = [0, 0, 0]
         self.angle_degree = [0, 0, 0]
-        self.pub_flag = [True, True, True]
+        self.magnetometer = [0, 0, 0]
+        self.pub_flag = [True, True, True, True]
 
         self.python_version = platform.python_version()[0]
 
@@ -80,6 +81,7 @@ class ImuNode(Node):
         if self.python_version == '3':
             self.buff[self.key] = raw_data
 
+        # self.get_logger().info("Buffer V: {}".format(self.buff[self.key]))
         self.key += 1
         if self.buff[0] != 0x55:
             self.key = 0
@@ -87,6 +89,7 @@ class ImuNode(Node):
         if self.key < 11:  # 根据数据长度位的判断, 来获取对应长度数据
             return
         else:
+            # self.get_logger().info("Buffer V: {}".format(self.buff[0]))
             data_buff = list(self.buff.values())  # 获取字典所有 value
 
             if self.buff[1] == 0x51 and self.pub_flag[0]:
@@ -110,6 +113,13 @@ class ImuNode(Node):
                     self.get_logger().warn('0x53 校验失败')
                 self.pub_flag[2] = False
 
+            elif self.buff[1] == 0x54 and self.pub_flag[3]:
+                if checkSum(data_buff[0:10], data_buff[10]):
+                    self.magnetometer = hex_to_short(data_buff[2:10])
+                else:
+                    print('0x54 校验失败')
+                self.pub_flag[3] = False
+
             else:
                 self.get_logger().warn(f"该数据处理类没有提供该 {str(self.buff[1])} 的解析或数据错误")
                 self.buff = {}
@@ -119,11 +129,11 @@ class ImuNode(Node):
             self.key = 0
             if any(self.pub_flag):
                 return
-            self.pub_flag[0] = self.pub_flag[1] = self.pub_flag[2] = True
+            self.pub_flag[0] = self.pub_flag[1] = self.pub_flag[2] = self.pub_flag[3] = True
             stamp = self.get_clock().now().to_msg()
 
             self.imu_msg.header.stamp = stamp
-            self.imu_msg.header.frame_id = "base_link"
+            self.imu_msg.header.frame_id = "imu_link"
 
             angle_radian = [self.angle_degree[i] * math.pi / 180 for i in range(3)]
             qua = quaternion_from_euler(angle_radian[0], angle_radian[1], angle_radian[2])

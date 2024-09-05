@@ -25,7 +25,7 @@ public:
 
 private:
 
-    string  serial_name = "/dev/tiewoniu_base";
+    // string  serial_name = "/dev/tiewoniu_base";
     const int32_t L_ENABLE = 0x3100;      // 左轮使能地址；
     const int32_t R_ENABLE = 0x2100;      // 右轮使能地址；
     const int32_t L_CMD_RPM = 0x3318;     // 左轮速度地址
@@ -90,6 +90,12 @@ DS2024_motor_driver::DS2024_motor_driver(string name) : Node(name), last_time(th
     if (modbus_connect(modbus_ctx_) == -1)
     {
         RCLCPP_FATAL(this->get_logger(), "连接失败: %s\n", modbus_strerror(errno));
+        if (errno == EACCES) {
+        RCLCPP_FATAL(this->get_logger(), "权限问题，无法访问设备。");
+        }
+        else if (errno == ENOENT) {
+        RCLCPP_FATAL(this->get_logger(), "设备节点不存在。");
+        }   
         modbus_free(modbus_ctx_);
         return;
     }

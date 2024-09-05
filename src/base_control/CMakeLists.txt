@@ -23,15 +23,15 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-add_executable(base_control_node src/base_control_node.cpp)
-ament_target_dependencies(base_control_node 
-  rclcpp
-  std_msgs
-  geometry_msgs
-  nav_msgs
-  tf2
-  tf2_ros
-)
+# add_executable(base_control_node src/base_control_node.cpp)
+# ament_target_dependencies(base_control_node 
+#   rclcpp
+#   std_msgs
+#   geometry_msgs
+#   nav_msgs
+#   tf2
+#   tf2_ros
+# )
 
 add_executable(DS2024_motor_driver_node src/DS2024_motor_driver_node.cpp)
 ament_target_dependencies(DS2024_motor_driver_node 
@@ -46,7 +46,7 @@ target_link_libraries(DS2024_motor_driver_node modbus)
 
 install(TARGETS  
   DS2024_motor_driver_node
-  base_control_node
+  # base_control_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

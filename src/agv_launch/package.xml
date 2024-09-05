@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>robot_description</name>
+  <name>agv_launch</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="Mr.zhu345@gmail.com">feiyu</maintainer>
+  <maintainer email="Mr.zhu345@gmail.com">feiyu_orinnx</maintainer>
   <license>TODO: License declaration</license>
- 
-  <exec_depend>joint_state_publisher_gui</exec_depend>
-  
+
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>

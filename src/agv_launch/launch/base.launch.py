@@ -6,18 +6,16 @@ from launch.substitutions import LaunchConfiguration
 def generate_launch_description():
 
     port = LaunchConfiguration('port', default='/dev/ttyUSB1')
-    baudrate = LaunchConfiguration('baudrate', default= '921600') 
 
-    port = "/dev/IMU_base"
+    port = '/dev/ttyTHS1'
     
     DS2024_motor_driver_node = Node(
-        package="base_control",
-        executable="DS2024_motor_driver_node",
-        name="DS2024_motor_driver_node",
+        package='base_control',
+        executable='DS2024_motor_driver_node',
+        name='DS2024_motor_driver_node',
         parameters=[
             {
-                'port': port,
-                'baudrate': baudrate,
+                'serial_name': port, # 配置为参数
             }
         ],
         output='screen',
@@ -29,3 +27,4 @@ def generate_launch_description():
 
 
     return ld
+

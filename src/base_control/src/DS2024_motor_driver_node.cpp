@@ -25,7 +25,10 @@ public:
 
 private:
 
-    // string  serial_name = "/dev/tiewoniu_base";
+    // string  serial_name;
+    // this->declare_parameter<std::string>("serial_name", "/dev/ttyTHS1");
+    // this->get_parameter("serial_name", serial_name);
+
     const int32_t L_ENABLE = 0x3100;      // 左轮使能地址；
     const int32_t R_ENABLE = 0x2100;      // 右轮使能地址；
     const int32_t L_CMD_RPM = 0x3318;     // 左轮速度地址
@@ -78,9 +81,16 @@ private:
 
 DS2024_motor_driver::DS2024_motor_driver(string name) : Node(name), last_time(this->get_clock()->now()),br(this)
 {
+    std::string serial_port;
+    // 声明参数在构造函数体内
+    this->declare_parameter<std::string>("serial_name", "/dev/ttyTHS1");
+    this->get_parameter("serial_name", serial_port);
+
     RCLCPP_INFO(this->get_logger(), "电机驱动正在连接...");
     int device_ID = 1;
-    modbus_ctx_ = modbus_new_rtu("/dev/ttyTHS1", 115200, 'N', 8, 1);
+    modbus_ctx_ = modbus_new_rtu(serial_port.c_str(), 115200, 'N', 8, 1);
+    // modbus_ctx_ = modbus_new_rtu("/dev/ttyTHS1", 115200, 'N', 8, 1);
+
     if (modbus_ctx_ == NULL)
     {
         RCLCPP_FATAL(this->get_logger(), "无法创建libmodbus上下文 ...");

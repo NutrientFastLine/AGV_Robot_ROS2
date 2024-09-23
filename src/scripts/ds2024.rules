@@ -1,2 +1,2 @@
-SUBSYSTEM=="tty", ATTRS{tty}=="ttyTHS1", SYMLINK+="ds2024_base"
+KERNEL=="ttyTHS1",SUBSYSTEM=="tty",MODE:="0777",SYMLINK+="ds2024_base"
 

@@ -38,8 +38,8 @@ class ImuNode(Node):
         baudrate = self.get_parameter('baudrate').get_parameter_value().integer_value
 
         self.imu_msg = Imu()
-        self.imu_pub = self.create_publisher(Imu, 'handsfree/imu', 10)
-        self.timer = self.create_timer(0.05, self.read_serial_data)
+        self.imu_pub = self.create_publisher(Imu, '/imu', 10)
+        self.timer = self.create_timer(0.02, self.read_serial_data)
 
         self.key = 0
         self.buff = {}
@@ -71,8 +71,14 @@ class ImuNode(Node):
             rclpy.shutdown()
         else:
             if buff_count > 0:
-                buff_data = self.hf_imu.read(buff_count)
-                for i in range(0, buff_count):
+                # buff_data = self.hf_imu.read(buff_count)
+                # for i in range(0, buff_count):
+                #     self.handle_serial_data(buff_data[i])
+                buff_count1 = buff_count -44
+                buff_data = self.hf_imu.read(44)
+                buff_rest = self.hf_imu.read(buff_count1)
+                buff_rest = 0
+                for i in range(0, len(buff_data)):
                     self.handle_serial_data(buff_data[i])
 
     def handle_serial_data(self, raw_data):

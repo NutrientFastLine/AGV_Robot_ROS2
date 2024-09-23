@@ -4,6 +4,8 @@ from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
 
+from launch.actions import DeclareLaunchArgument
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
 
@@ -27,9 +29,9 @@ def generate_launch_description():
 
     #=====================运行底盘节点需要的配置==========================================================
 
-    base_serial_port = LaunchConfiguration('port', default='/dev/ttyUSB0')
+    base_serial_port = LaunchConfiguration('port', default='/dev/ttyTHS1')
 
-    base_serial_port = '/dev/ttyTHS1'
+    base_serial_port = '/dev/ds2024_base'
     
     DS2024_motor_driver_node = Node(
         package='base_control',
@@ -65,13 +67,13 @@ def generate_launch_description():
 
     #=====================运行雷达节点需要的配置==========================================================
 
-    channel_type =  LaunchConfiguration('channel_type', default='serial')
+    sllidar_channel_type =  LaunchConfiguration('channel_type', default='serial')
     sllidar_serial_port = LaunchConfiguration('serial_port', default='/dev/sllidar_base')
     sllidar_serial_baudrate = LaunchConfiguration('serial_baudrate', default='256000')
-    frame_id = LaunchConfiguration('frame_id', default='laser_link')
-    inverted = LaunchConfiguration('inverted', default='false')
-    angle_compensate = LaunchConfiguration('angle_compensate', default='true')
-    scan_mode = LaunchConfiguration('scan_mode', default='Sensitivity')
+    sllidar_frame_id = LaunchConfiguration('frame_id', default='laser_link')
+    sllidar_inverted = LaunchConfiguration('inverted', default='false')
+    sllidar_angle_compensate = LaunchConfiguration('angle_compensate', default='true')
+    sllidar_scan_mode = LaunchConfiguration('scan_mode', default='Sensitivity')
 
     sllidar_ros2_node = Node(
         package='sllidar_ros2',
@@ -79,28 +81,45 @@ def generate_launch_description():
         name='sllidar_node',
         parameters=[
             {
-                'channel_type': channel_type,
+                'channel_type': sllidar_channel_type,
                 'serial_port': sllidar_serial_port,
                 'serial_baudrate': sllidar_serial_baudrate,
-                'frame_id': frame_id,
-                'inverted': inverted,
-                'angle_compensate': angle_compensate
+                'frame_id': sllidar_frame_id,
+                'inverted': sllidar_inverted,
+                'angle_compensate': sllidar_angle_compensate
             }
         ],
         output='screen',
         )
 
     # #==========启动robot_localization 融合odom和imu数据========================================================
-    
-    # robot_start_pkg = FindPackageShare(package='robot_start').find('robot_start') 
 
-    # ekf_node = Node(
-    #     package='robot_localization',
-    #     executable='ekf_node',
-    #     name='ekf_filter_node',
-    #     output='screen',
-    #     parameters=[os.path.join(robot_start_pkg, 'params', 'ekf.yaml')],
-    # )   
+    # declare_robot_localization_config = DeclareLaunchArgument(
+    #     'robot_localization_config',
+    #     default_value=os.path.join(
+    #         FindPackageShare('agv_launch').find('agv_launch'),
+    #         'config', 'ekf.yaml'
+    #     ),
+    #     description='Full path to the robot localization config file (ekf.yaml)'
+    # )
+    
+    # robot_localization_config_pkg = FindPackageShare(package='agv_launch').find('agv_launch') 
+    # robot_localization_config_path = os.path.join(robot_localization_config_pkg, f'config/{"ekf.yaml"}')
+    robot_localization_config_pkg = get_package_share_directory('agv_launch')
+    robot_localization_config_path = os.path.join(robot_localization_config_pkg, 'config', 'ekf.yaml')
+
+    # 确保路径存在
+    if not os.path.exists(robot_localization_config_path):
+        raise FileNotFoundError(f"Could not find ekf.yaml at {robot_localization_config_path}")
+
+    robot_localization_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[robot_localization_config_path],
+    )   
+
     
     #===============================================定义启动文件========================================================
 
@@ -113,6 +132,6 @@ def generate_launch_description():
     ld.add_action(imu_driver_node)    
     ld.add_action(sllidar_ros2_node)
 
-    # ld.add_action(ekf_node)
+    ld.add_action(robot_localization_node)
 
     return ld

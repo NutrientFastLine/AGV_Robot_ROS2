@@ -10,6 +10,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
+  <depend>nav_msgs</depend>
   
   <build_depend>libmodbus-dev</build_depend>
   <exec_depend>libmodbus-dev</exec_depend>

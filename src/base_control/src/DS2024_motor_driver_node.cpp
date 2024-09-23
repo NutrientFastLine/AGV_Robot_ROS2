@@ -53,7 +53,7 @@ private:
     nav_msgs::msg::Odometry odom;
     geometry_msgs::msg::TransformStamped transformStamped;
 
-    tf2_ros::TransformBroadcaster br; 
+    // tf2_ros::TransformBroadcaster br; 
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr sub_cmdVel;
     rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr pub_odom;
 
@@ -79,7 +79,8 @@ private:
 
 };
 
-DS2024_motor_driver::DS2024_motor_driver(string name) : Node(name), last_time(this->get_clock()->now()),br(this)
+// DS2024_motor_driver::DS2024_motor_driver(string name) : Node(name), last_time(this->get_clock()->now()),br(this)
+DS2024_motor_driver::DS2024_motor_driver(string name) : Node(name), last_time(this->get_clock()->now())
 {
     std::string serial_port;
     // 声明参数在构造函数体内
@@ -115,9 +116,9 @@ DS2024_motor_driver::DS2024_motor_driver(string name) : Node(name), last_time(th
     }
 
     sub_cmdVel = this->create_subscription<geometry_msgs::msg::Twist>(
-        "cmd_vel", 10, std::bind(&DS2024_motor_driver::cmdVelCallback, this, std::placeholders::_1));
+        "/cmd_vel", 10, std::bind(&DS2024_motor_driver::cmdVelCallback, this, std::placeholders::_1));
 
-    pub_odom = this->create_publisher<nav_msgs::msg::Odometry>("odom", 10);
+    pub_odom = this->create_publisher<nav_msgs::msg::Odometry>("/odom", 10);
 
 
 }
@@ -214,18 +215,18 @@ void DS2024_motor_driver::poseUpdate()
     }
     pub_odom->publish(odom);
 
-    // 发布在rviz下显示的坐标
-    transformStamped.header.stamp = this->get_clock()->now();
-    transformStamped.header.frame_id = "odom";
-    transformStamped.child_frame_id = "base_link";
-    transformStamped.transform.translation.x = x_odom;
-    transformStamped.transform.translation.y = y_odom;
-    transformStamped.transform.translation.z = 0.0;
-    transformStamped.transform.rotation.x = odom_quat.x();
-    transformStamped.transform.rotation.y = odom_quat.y();
-    transformStamped.transform.rotation.z = odom_quat.z();
-    transformStamped.transform.rotation.w = odom_quat.w();
-    br.sendTransform(transformStamped);
+    // // 发布在rviz下显示的坐标
+    // transformStamped.header.stamp = this->get_clock()->now();
+    // transformStamped.header.frame_id = "odom";
+    // transformStamped.child_frame_id = "base_link";
+    // transformStamped.transform.translation.x = x_odom;
+    // transformStamped.transform.translation.y = y_odom;
+    // transformStamped.transform.translation.z = 0.0;
+    // transformStamped.transform.rotation.x = odom_quat.x();
+    // transformStamped.transform.rotation.y = odom_quat.y();
+    // transformStamped.transform.rotation.z = odom_quat.z();
+    // transformStamped.transform.rotation.w = odom_quat.w();
+    // br.sendTransform(transformStamped);
 }
 
 void DS2024_motor_driver::setRpm(int16_t rpm_left, int16_t rpm_right)
@@ -271,7 +272,7 @@ int main(int argc, char **argv)
     auto node = std::make_shared<DS2024_motor_driver>("DS2024_motor_driver_node");
 
     node->enableMotor();
-    rclcpp::Rate loop_rate(50ms);
+    rclcpp::Rate loop_rate(20ms);
     while (rclcpp::ok())
     {
         node->poseUpdate();

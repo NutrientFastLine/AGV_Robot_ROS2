@@ -206,6 +206,18 @@ class SLlidarNode : public rclcpp::Node
                   float max_distance,
                   std::string frame_id)
     {
+        
+        // 定义柱子距离（2米以内的物体将被认为是柱子）
+        const float shielding_distance = 0.42; // 单位：米
+        // 定义柱子的角度范围（例如，这里假设有四个柱子在雷达扫描的特定角度范围内）
+        // 每个柱子的角度范围用起始角度和结束角度表示，单位为弧度。
+        const std::vector<std::pair<float, float>> shielding_angles = {
+            {23.0, 26.5},     // 柱子 1 的角度范围（0°到15°）
+            {131.5, 134.5},   // 柱子 2 的角度范围（75°到105°）
+            {220.5, 224.5},  // 柱子 3 的角度范围（165°到195°）
+            {330.5, 333.5}   // 柱子 4 的角度范围（270°到285°）
+        };
+
         static int scan_count = 0;
         auto scan_msg = std::make_shared<sensor_msgs::msg::LaserScan>();
 
@@ -250,33 +262,39 @@ class SLlidarNode : public rclcpp::Node
                 scan_msg->intensities[node_count-1-i] = (float) (nodes[i].quality >> 2);
             }
         }
-        // for(int k=0;k<node_count;k++)
-        // {
-        //     if(138<k&&k<160)
-        //     {
-        //         scan_msg->ranges[k] = std::numeric_limits<float>::infinity();
-        //     }
-        //     else if(727<k&&k<750)
-        //     {
-        //         scan_msg->ranges[k] = std::numeric_limits<float>::infinity();
-        //     }
-        //     else if(1214<k&&k<1235)
-        //     {
-        //         scan_msg->ranges[k] = std::numeric_limits<float>::infinity();
-        //     }
-        //     else if(1805<k&&k<1827)
-        //     {
-        //         scan_msg->ranges[k] = std::numeric_limits<float>::infinity();
-        //     }
-        //     else
-        //     {
+        // RCLCPP_INFO(this->get_logger(), "数组内，第一位 %.2f第二位 %.2f 度, ", shielding_angles[1].first, shielding_angles[1].second);
+        for (size_t i = 0; i < node_count; i++) {
+
+            float read_value = (float)nodes[i].dist_mm_q2 / 4.0f / 1000;
+            float angle = getAngle(nodes[i]);
+
+            // if (read_value > 0.1 && read_value <= 0.3)
+            //     RCLCPP_INFO(this->get_logger(), "距离小于0.3,有如下点 %zu: 角度 = %.2f 度, 距离 = %.2f 米", i, angle, read_value);
+
+            // if (read_value > 0.3 && read_value <= 0.5)
+            //     RCLCPP_INFO(this->get_logger(), "距离0.3-0.5，有如下点 %zu: 角度 = %.2f 度, 距离 = %.2f 米", i, angle, read_value);
+
+
+            // 过滤掉铁柱
+            bool isshielding = false;
+            for (size_t j = 0; j < shielding_angles.size(); j++) {
+                if (angle >= shielding_angles[j].first && angle <= shielding_angles[j].second && read_value < shielding_distance) {
+                    isshielding = true;
+                    break;
+                }
+            }
+            if (read_value < 0.2325)
+                isshielding = true;
             
-        //     }
-        //     //if(scan_msg.ranges[k]<0.55)
-        //     //{
-        //         //std::cout<<k<<std::endl;
-        //     //}
-        // }
+
+            if (!isshielding) {
+                scan_msg->ranges[i] = read_value;
+                scan_msg->intensities[i] = (float)(nodes[i].quality >> 2);
+            } else {
+                scan_msg->ranges[i] = std::numeric_limits<float>::infinity(); // 设置为无穷大，表示被过滤
+            }
+        }
+
 
         pub->publish(*scan_msg);
     }

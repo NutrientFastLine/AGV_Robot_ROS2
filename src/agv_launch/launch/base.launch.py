@@ -7,7 +7,8 @@ def generate_launch_description():
 
     port = LaunchConfiguration('port', default='/dev/ttyUSB1')
 
-    port = '/dev/ttyTHS1'
+
+    port = '/dev/ds2024_base'
     
     DS2024_motor_driver_node = Node(
         package='base_control',

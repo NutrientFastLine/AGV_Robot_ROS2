@@ -9,8 +9,27 @@ from launch.actions import LogInfo
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
+from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
+#==========启动robot_desscription URDF文件========================================================
+    
+    desscription_pkg_share = FindPackageShare(package='robot_description').find('robot_description') 
+    desscription_urdf_model_path = os.path.join(desscription_pkg_share, f'urdf/{"agv_base.urdf"}')
+
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        arguments=[desscription_urdf_model_path]
+        )
+
+    joint_state_publisher_node = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        arguments=[desscription_urdf_model_path]
+        )    
+
     channel_type =  LaunchConfiguration('channel_type', default='serial')
     serial_port = LaunchConfiguration('serial_port', default='/dev/sllidar_base')
     serial_baudrate = LaunchConfiguration('serial_baudrate', default='256000')
@@ -67,5 +86,10 @@ def generate_launch_description():
                          'inverted': inverted, 
                          'angle_compensate': angle_compensate}],
             output='screen'),
+
+        joint_state_publisher_node,
+
+        robot_state_publisher_node,
+
     ])
 

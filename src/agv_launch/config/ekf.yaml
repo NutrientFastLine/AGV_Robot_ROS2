@@ -1,7 +1,7 @@
 ### ekf config file ###
 ekf_filter_node:
     ros__parameters:
-        debug: true
+        debug: false
         frequency: 50.0
         two_d_mode: false
         publish_acceleration: false

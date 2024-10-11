@@ -38,7 +38,7 @@ class ImuNode(Node):
         baudrate = self.get_parameter('baudrate').get_parameter_value().integer_value
 
         self.imu_msg = Imu()
-        self.imu_pub = self.create_publisher(Imu, '/imu', 10)
+        self.imu_pub = self.create_publisher(Imu, '/base/imu', 10)
         self.timer = self.create_timer(0.02, self.read_serial_data)
 
         self.key = 0

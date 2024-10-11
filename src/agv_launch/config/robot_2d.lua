@@ -40,7 +40,7 @@ options = {
 MAP_BUILDER.use_trajectory_builder_2d = true
 
 -- 0改成0.10,比机器人半径小的都忽略
-TRAJECTORY_BUILDER_2D.min_range = 0.10
+TRAJECTORY_BUILDER_2D.min_range = 0.2325
 -- 30改成3.5,限制在雷达最大扫描范围内，越小一般越精确些
 TRAJECTORY_BUILDER_2D.max_range = 3.5
 -- 5改成3,传感器数据超出有效范围最大值

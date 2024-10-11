@@ -118,7 +118,7 @@ DS2024_motor_driver::DS2024_motor_driver(string name) : Node(name), last_time(th
     sub_cmdVel = this->create_subscription<geometry_msgs::msg::Twist>(
         "/cmd_vel", 10, std::bind(&DS2024_motor_driver::cmdVelCallback, this, std::placeholders::_1));
 
-    pub_odom = this->create_publisher<nav_msgs::msg::Odometry>("/odom", 10);
+    pub_odom = this->create_publisher<nav_msgs::msg::Odometry>("/base/odom", 10);
 
 
 }

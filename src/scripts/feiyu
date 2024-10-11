@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo "请选择快捷指令: 保存地图(p) 安装依赖(i):"
+read choose
+
+case $choose in
+    p)
+        echo "请输入保存的地图名:"
+        read map_name
+        if [ -z "$map_name" ]; then
+            echo "地图名不能为空，请重新输入"
+        else
+            echo "请输入保存地图的路径 (默认为当前文件夹):"
+            read map_path
+            if [ -z "$map_path" ]; then
+                map_path="."
+            fi
+            # 假设使用 map_saver_cli 工具保存地图
+            ros2 run nav2_map_server map_saver_cli -f $map_path/$map_name
+            echo "地图已保存为 $map_path/$map_name"
+        fi
+        ;;
+    i)
+        # 安装 src 目录下的依赖项
+        echo "正在安装 src 目录下的依赖项..."
+        rosdepc install --from-paths src --ignore-src -r -y
+        echo "依赖项安装完成"
+        ;;
+    *) 
+        echo "输入有误，请输入正确选项"
+        ;;
+esac
+

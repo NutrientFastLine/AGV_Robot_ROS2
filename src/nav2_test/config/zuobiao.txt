@@ -1,0 +1,1 @@
+Setting estimate pose: Frame:map, Position(0.0189337, 0.00899811, 0), Orientation(0, 0, 0.00561797, 0.999984) = Angle: 0.011236

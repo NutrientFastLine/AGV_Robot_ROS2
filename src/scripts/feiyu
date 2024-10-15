@@ -1,30 +1,73 @@
 #!/bin/bash
 
-echo "请选择快捷指令: 保存地图(p) 安装依赖(i):"
+# 定义函数：保存地图
+save_map() {
+    echo "请输入保存的地图名:"
+    read map_name
+    if [ -z "$map_name" ]; then
+        echo "地图名不能为空，请重新输入"
+        return
+    fi
+    echo "请输入保存地图的路径 (默认为当前文件夹):"
+    read map_path
+    map_path=${map_path:-"."}  # 如果未输入路径，使用当前文件夹
+    ros2 run nav2_map_server map_saver_cli -f "$map_path/$map_name"
+    echo "地图已保存为 $map_path/$map_name"
+}
+
+# 定义函数：安装依赖项
+install_dependencies() {
+    echo "正在安装 src 目录下的依赖项..."
+    rosdepc install --from-paths src --ignore-src -r -y
+    echo "依赖项安装完成"
+}
+
+# 定义函数：管理Lifecycle节点
+manage_nodes() {
+    echo "请选择操作:"
+    echo "  0. 启动所有节点"
+    echo "  1. 停止所有节点"
+    echo "  2. 恢复所有节点"
+    echo "  3. 重置所有节点"
+    echo "  4. 关闭所有节点"
+    read manage_nodes_command
+
+    case $manage_nodes_command in
+        0) command_name="启动" command_value=0 ;;
+        1) command_name="停止" command_value=1 ;;
+        2) command_name="恢复" command_value=2 ;;
+        3) command_name="重置" command_value=3 ;;
+        4) command_name="关闭" command_value=4 ;;
+        *) echo "无效的节点管理命令选项"; return ;;
+    esac
+
+    echo "$command_name 所有节点..."
+    ros2 service call /lifecycle_manager_mapper/manage_nodes nav2_msgs/srv/ManageLifecycleNodes "{command: $command_value}"
+}
+
+# 定义函数：获取节点状态
+get_node_status() {
+    echo "获取节点状态..."
+    ros2 service call /lifecycle_manager_mapper/get_states std_srvs/srv/Empty "{}"
+}
+
+# 主逻辑
+echo "请选择快捷指令: 保存地图(p) 安装依赖(i) 管理Lifecycle(l):"
 read choose
 
 case $choose in
-    p)
-        echo "请输入保存的地图名:"
-        read map_name
-        if [ -z "$map_name" ]; then
-            echo "地图名不能为空，请重新输入"
-        else
-            echo "请输入保存地图的路径 (默认为当前文件夹):"
-            read map_path
-            if [ -z "$map_path" ]; then
-                map_path="."
-            fi
-            # 假设使用 map_saver_cli 工具保存地图
-            ros2 run nav2_map_server map_saver_cli -f $map_path/$map_name
-            echo "地图已保存为 $map_path/$map_name"
-        fi
-        ;;
-    i)
-        # 安装 src 目录下的依赖项
-        echo "正在安装 src 目录下的依赖项..."
-        rosdepc install --from-paths src --ignore-src -r -y
-        echo "依赖项安装完成"
+    p) save_map ;;
+    i) install_dependencies ;;
+    l)
+        echo "请选择Lifecycle Manager操作:"
+        echo "1. 管理节点 (启动/停止/恢复/重置/关闭)"
+        echo "2. 获取节点状态"
+        read lifecycle_operation
+        case $lifecycle_operation in
+            1) manage_nodes ;;
+            2) get_node_status ;;
+            *) echo "无效的Lifecycle操作选项" ;;
+        esac
         ;;
     *) 
         echo "输入有误，请输入正确选项"

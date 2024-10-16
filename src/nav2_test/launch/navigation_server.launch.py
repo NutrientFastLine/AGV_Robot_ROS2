@@ -47,9 +47,10 @@ def generate_launch_description():
     nav2_lifecycle_manager_node = Node(
         package='nav2_lifecycle_manager',
         executable='lifecycle_manager',
-        name='lifecycle_manager_pathplanner',
+        name='lifecycle_manager_navigation',
         output='screen',
-        parameters=[{'autostart': True},
+        parameters=[{'use_sim_time': use_sim_time},
+                    {'autostart': True},
                     {'node_names': ['planner_server',
                                     'controller_server',
                                     'behavior_server',

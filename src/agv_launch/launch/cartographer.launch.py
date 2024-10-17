@@ -5,6 +5,9 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     # 定位到功能包的地址
@@ -53,9 +56,16 @@ def generate_launch_description():
     #     arguments=['-d', rviz_config_dir],
     #     parameters=[{'use_sim_time': use_sim_time}],
     #     output='screen')
+    #==========================================================================================
+    agv_launch_dir = get_package_share_directory('agv_launch')    
+    
+    base_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([agv_launch_dir,'/launch','/base.launch.py']),
+        )
 
     #===============================================定义启动文件========================================================
     ld = LaunchDescription()
+    ld.add_action(base_launch)
     ld.add_action(cartographer_node)
     ld.add_action(cartographer_occupancy_grid_node)
     # ld.add_action(rviz_node)

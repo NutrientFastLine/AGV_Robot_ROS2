@@ -27,14 +27,7 @@ def generate_launch_description():
                 'use_sim_time': use_sim_time,
                 'params_file': nav2_param_path}.items(),
         )
-    # rviz_node =  Node(
-    #         package='rviz2',
-    #         executable='rviz2',
-    #         name='rviz2',
-    #         arguments=['-d', rviz_config_dir],
-    #         parameters=[{'use_sim_time': use_sim_time}],
-    #         output='screen')
-    #=========定义启动文件========================================================
+    
     ld = LaunchDescription()
     ld.add_action(nav2_bringup_launch)
 

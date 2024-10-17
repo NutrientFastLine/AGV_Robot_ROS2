@@ -17,10 +17,10 @@ def generate_launch_description():
 
     #=============================3.声明启动launch文件，传入：地图路径、是否使用仿真时间以及nav2参数文件==============
     localization_server_launch = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([nav2_test_dir,'/launch','/localization_server.launch.py']),
-            launch_arguments={                
-                'use_sim_time': use_sim_time,
-                'autostart': autostart}.items(),
+        PythonLaunchDescriptionSource([nav2_test_dir,'/launch','/localization_server.launch.py']),
+        launch_arguments={                
+            'use_sim_time': use_sim_time,
+            'autostart': autostart}.items(),
         )
     
     navigation_server_launch = IncludeLaunchDescription(

@@ -57,11 +57,13 @@ def generate_launch_description():
     #     parameters=[{'use_sim_time': use_sim_time}],
     #     output='screen')
     #==========================================================================================
-    agv_launch_dir = get_package_share_directory('agv_launch')    
+    agv_launch_dir = get_package_share_directory('agv_launch')
+    launch_dir = os.path.join(agv_launch_dir, 'launch')
+    base_launch_file = os.path.join(launch_dir, 'base.launch.py')    
     
     base_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([agv_launch_dir,'/launch','/base.launch.py']),
-        )
+        PythonLaunchDescriptionSource(base_launch_file)
+    )
 
     #===============================================定义启动文件========================================================
     ld = LaunchDescription()

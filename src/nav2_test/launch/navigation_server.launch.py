@@ -50,7 +50,7 @@ def generate_launch_description():
         name='lifecycle_manager_navigation',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time},
-                    {'autostart': True},
+                    {'autostart': autostart},
                     {'node_names': ['planner_server',
                                     'controller_server',
                                     'behavior_server',

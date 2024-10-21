@@ -4,4 +4,9 @@ install/
 log/
 src/.vscode/
 .vscode/
+src/base_control/COLCON_IGNORE
+src/imu_driver_py/COLCON_IGNORE
+src/robot_description/COLCON_IGNORE
+src/sllidar_ros2/COLCON_IGNORE
+src/ros2_astra_camera/COLCON_IGNORE
 

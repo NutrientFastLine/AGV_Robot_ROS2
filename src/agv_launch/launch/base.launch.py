@@ -3,9 +3,11 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
-
 from launch.actions import DeclareLaunchArgument
 from ament_index_python.packages import get_package_share_directory
+
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
 
@@ -120,9 +122,14 @@ def generate_launch_description():
         parameters=[robot_localization_config_path],
     )   
 
-    #=====================运行需要的配置==========================================================
+    # #=====================运行深度相机的配置==========================================================
+    # astra_camera_dir = get_package_share_directory('astra_camera') 
 
+    # astra_mini_launch_file = os.path.join(astra_camera_dir, 'launch', 'astra_mini.launch.py')
 
+    # astra_mini_launch = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(astra_mini_launch_file)
+    # )
 
     #===============================================定义启动文件========================================================
 
@@ -136,5 +143,6 @@ def generate_launch_description():
     ld.add_action(sllidar_ros2_node)
 
     ld.add_action(robot_localization_node)
+    # ld.add_action(astra_mini_launch)
 
     return ld

@@ -99,6 +99,26 @@
     </visual>
   </link>
 
+  <!-- camera joint -->
+    <joint name="camera_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="camera_link" />
+        <origin xyz="0.45 0.05 0.1" rpy="0 0 0"/>
+    </joint>
+
+  <!-- camera link -->
+  <link name="camera_link">
+      <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.15 0.02" />
+      </geometry>
+      <material name="black">
+          <color rgba="0.0 0.0 0.0 0.8" /> 
+      </material>
+    </visual>
+  </link>
+
   <!-- imu joint -->
   <joint name="imu_joint" type="fixed">
       <parent link="base_link" />

@@ -51,8 +51,29 @@ get_node_status() {
     ros2 service call /lifecycle_manager_mapper/get_states std_srvs/srv/Empty "{}"
 }
 
+# 定义函数：检查并释放占用 /dev/astra_pro 的进程
+release_device() {
+    DEVICE="/dev/astra_pro"
+    PROCESS_INFO=$(lsof $DEVICE 2>/dev/null)
+
+    if [[ -z "$PROCESS_INFO" ]]; then
+        echo "设备 $DEVICE 当前未被占用。"
+    else
+        PID=$(echo "$PROCESS_INFO" | awk 'NR==2 {print $2}')
+        echo "设备 $DEVICE 被进程 $PID 占用。正在终止该进程..."
+
+        sudo kill -9 $PID
+
+        if [[ $? -eq 0 ]]; then
+            echo "进程 $PID 已成功终止。"
+        else
+            echo "终止进程 $PID 失败。请检查权限。"
+        fi
+    fi
+}
+
 # 主逻辑
-echo "请选择快捷指令: 保存地图(p) 安装依赖(i) 管理Lifecycle(l):"
+echo "请选择快捷指令: 保存地图(p) 安装依赖(i) 管理Lifecycle(l) 释放设备(r):"
 read choose
 
 case $choose in
@@ -69,6 +90,7 @@ case $choose in
             *) echo "无效的Lifecycle操作选项" ;;
         esac
         ;;
+    r) release_device ;;
     *) 
         echo "输入有误，请输入正确选项"
         ;;

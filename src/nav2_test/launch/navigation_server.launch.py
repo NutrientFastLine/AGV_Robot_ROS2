@@ -20,7 +20,8 @@ def generate_launch_description():
         executable='controller_server',
         name='controller_server',
         output='screen',
-        parameters=[controller_yaml]
+        parameters=[controller_yaml],
+        remappings= [('cmd_vel', 'cmd_vel_raw')]
     )
     nav2_planner_node = Node(
         package='nav2_planner',

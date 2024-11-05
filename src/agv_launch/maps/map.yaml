@@ -1,4 +1,4 @@
-image: /home/nanorobot/catkin_ws/src/robot_navigation/maps/map.pgm
+image: map.pgm
 resolution: 0.050000
 origin: [-3.776535, -9.847278, 0.000000]
 negate: 0

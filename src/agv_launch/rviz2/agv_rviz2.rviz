@@ -25,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -114,7 +114,7 @@ Visualization Manager:
       Frames:
         All Enabled: false
         base_link:
-          Value: true
+          Value: false
         camera_link:
           Value: true
         caster_link:
@@ -125,10 +125,6 @@ Visualization Manager:
           Value: true
         left_wheel_link:
           Value: false
-        map:
-          Value: true
-        odom:
-          Value: true
         right_wheel_link:
           Value: false
       Marker Scale: 1
@@ -149,9 +145,6 @@ Visualization Manager:
           left_wheel_link:
             {}
           right_wheel_link:
-            {}
-        map:
-          odom:
             {}
       Update Interval: 0
       Value: true
@@ -245,7 +238,7 @@ Visualization Manager:
         Enable acceleration: false
       Axes properties:
         Axes scale: 1
-        Enable axes: true
+        Enable axes: false
       Box properties:
         Box alpha: 1
         Box color: 255; 0; 0
@@ -308,7 +301,7 @@ Visualization Manager:
       Class: rviz_default_plugins/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Map
       Topic:
         Depth: 5
@@ -324,11 +317,11 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /map_updates
       Use Timestamp: false
-      Value: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: map
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -371,25 +364,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 7.470730781555176
+      Distance: 3.053104877471924
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: 0.42883792519569397
+        Y: 0.2746996581554413
+        Z: -0.10352012515068054
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.3597965240478516
+      Pitch: 0.6447970271110535
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.1122570037841797
+      Yaw: 2.902252435684204
     Saved: ~
 Window Geometry:
   Displays:

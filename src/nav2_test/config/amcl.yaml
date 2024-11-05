@@ -40,8 +40,19 @@ amcl:
     map_topic: map
     set_initial_pose: true
     always_reset_initial_pose: false
+    # initial_pose:
+    #   x: 6.702
+    #   y: 18.8355
+    #   z: 0.0
+    #   yaw: -1.55358
     initial_pose:
       x: 0.0189337
       y: 0.00899811
       z: 0.0
       yaw: 0.011236
+    # initial_pose:
+    #   x: 0.620715
+    #   y: 0.248674
+    #   z: 0.0
+    #   yaw: 0.00500366
+

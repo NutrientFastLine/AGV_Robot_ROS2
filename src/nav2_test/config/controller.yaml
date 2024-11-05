@@ -13,7 +13,7 @@ controller_server:
     controller_plugins: ["FollowPath"]
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 0.3
+      required_movement_radius: 0.1
       movement_time_allowance: 10.0
     general_goal_checker:
       stateful: True
@@ -25,18 +25,18 @@ controller_server:
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.16
+      max_vel_x: 0.26
       max_vel_y: 0.0
-      max_vel_theta: 1.0
+      max_vel_theta: 0.20
       min_speed_xy: 0.0
-      max_speed_xy: 0.26
+      max_speed_xy: 0.2
       min_speed_theta: 0.0
       acc_lim_x: 2.5
       acc_lim_y: 0.0
-      acc_lim_theta: 3.2
-      decel_lim_x: -2.5
+      acc_lim_theta: 1.2
+      decel_lim_x: -1.5
       decel_lim_y: 0.0
-      decel_lim_theta: -3.2
+      decel_lim_theta: -1.2
       vx_samples: 20
       vy_samples: 5
       vtheta_samples: 20
@@ -73,15 +73,42 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      footprint_padding: 0.03
+      footprint_padding: 0.10
       footprint: "[ [0.45, 0.2325], [0.45, -0.2325], [-0.25, -0.2325], [-0.25, 0.2325] ]"
-      plugins: ["obstacle_layer", "voxel_layer", "denoise_layer", "inflation_layer"]
-      obstacle_layer:
-        plugin: "nav2_costmap_2d::ObstacleLayer"
+      plugins: [ "voxel_layer", "denoise_layer", "inflation_layer"]
+      # plugins: ["obstacle_layer", "voxel_layer", "denoise_layer", "inflation_layer"]
+      # obstacle_layer:
+      #   plugin: "nav2_costmap_2d::ObstacleLayer"
+      #   enabled: True
+      #   observation_sources: scan
+      #   footprint_clearing_enabled: true
+      #   max_obstacle_height: 2.0
+      #   combination_method: 1
+      #   scan:
+      #     topic: /scan
+      #     obstacle_max_range: 2.5
+      #     obstacle_min_range: 0.0
+      #     raytrace_max_range: 3.0
+      #     raytrace_min_range: 0.0
+      #     max_obstacle_height: 2.0
+      #     min_obstacle_height: 0.0
+      #     clearing: True
+      #     marking: True
+      #     data_type: "LaserScan"
+      #     inf_is_valid: false
+      voxel_layer:
+        plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
-        observation_sources: scan
         footprint_clearing_enabled: true
         max_obstacle_height: 2.0
+        publish_voxel_map: True
+        origin_z: 0.0
+        z_resolution: 0.05
+        z_voxels: 16
+        max_obstacle_height: 2.0
+        unknown_threshold: 15
+        mark_threshold: 0
+        observation_sources: scan
         combination_method: 1
         scan:
           topic: /scan
@@ -95,31 +122,31 @@ local_costmap:
           marking: True
           data_type: "LaserScan"
           inf_is_valid: false
-      voxel_layer:
-        plugin: "nav2_costmap_2d::VoxelLayer"
-        enabled: True
-        footprint_clearing_enabled: true
-        max_obstacle_height: 2.0
-        publish_voxel_map: True
-        origin_z: 0.0
-        z_resolution: 0.05
-        z_voxels: 16
-        max_obstacle_height: 2.0
-        unknown_threshold: 15
-        mark_threshold: 0
-        observation_sources: pointcloud
-        combination_method: 1
-        pointcloud: 
-          topic: /camera/depth/points
-          max_obstacle_height: 2.0
-          min_obstacle_height: 0.0
-          obstacle_max_range: 2.5
-          obstacle_min_range: 0.0
-          raytrace_max_range: 3.0
-          raytrace_min_range: 0.0
-          clearing: True
-          marking: True
-          data_type: "PointCloud2"
+      # voxel_layer:
+      #   plugin: "nav2_costmap_2d::VoxelLayer"
+      #   enabled: True
+      #   footprint_clearing_enabled: true
+      #   max_obstacle_height: 2.0
+      #   publish_voxel_map: True
+      #   origin_z: 0.0
+      #   z_resolution: 0.05
+      #   z_voxels: 16
+      #   max_obstacle_height: 2.0
+      #   unknown_threshold: 15
+      #   mark_threshold: 0
+      #   observation_sources: pointcloud
+      #   combination_method: 1
+      #   pointcloud: 
+      #     topic: /camera/depth/points
+      #     max_obstacle_height: 2.0
+      #     min_obstacle_height: 0.0
+      #     obstacle_max_range: 2.5
+      #     obstacle_min_range: 0.0
+      #     raytrace_max_range: 3.0
+      #     raytrace_min_range: 0.0
+      #     clearing: True
+      #     marking: True
+      #     data_type: "PointCloud2"
       denoise_layer:
         plugin: "nav2_costmap_2d::DenoiseLayer"
         enabled: true
@@ -128,7 +155,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         enabled: true
-        inflation_radius: 0.1
+        inflation_radius: 0.20
         cost_scaling_factor: 1.0
         inflate_unknown: false
         inflate_around_unknown: true

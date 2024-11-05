@@ -15,6 +15,8 @@ def generate_launch_description():
     #=============================2. 定义launch文件路径 ====================================
     localization_server_launch_file = os.path.join(nav2_test_dir, 'launch', 'localization_server.launch.py')
     navigation_server_launch_file = os.path.join(nav2_test_dir, 'launch', 'navigation_server.launch.py')
+    collision_monitor_launch_file = os.path.join(nav2_test_dir, 'launch', 'collision_monitor.launch.py')
+
     astra_mini_launch_file = os.path.join(astra_camera_dir, 'launch', 'astra_mini.launch.py')
     base_launch_file = os.path.join(agv_launch_dir, 'launch', 'base.launch.py')
 
@@ -46,11 +48,16 @@ def generate_launch_description():
         launch_arguments=launch_arguments
     )
 
+    collision_monitor_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(collision_monitor_launch_file)
+    )
+
     #=============================5. 定义并返回LaunchDescription ==========================
     ld = LaunchDescription()
-    ld.add_action(base_launch)
+    # ld.add_action(base_launch)
     # ld.add_action(astra_mini_launch)
     ld.add_action(localization_server_launch)
     ld.add_action(navigation_server_launch)
+    # ld.add_action(collision_monitor_launch)
 
     return ld

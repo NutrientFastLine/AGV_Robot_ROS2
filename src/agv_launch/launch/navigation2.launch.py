@@ -9,25 +9,35 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     #=============================1.定位到包的地址=============================================================
-    navigation2_dir = get_package_share_directory('agv_launch')
+    agv_launch_dir = get_package_share_directory('agv_launch')
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
-    
     
     #=============================2.声明参数，获取配置文件路径===================================================
     use_sim_time = LaunchConfiguration('use_sim_time', default='false') 
-    map_yaml_path = LaunchConfiguration('map',default=os.path.join(navigation2_dir,'maps','map.yaml'))
-    nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(navigation2_dir,'config','robot_nav2.yaml'))
+
+    nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(agv_launch_dir,'config','robot_nav2.yaml'))
+    nav2_bringup_launch_file = os.path.join(nav2_bringup_dir, 'launch', 'bringup_launch.py')
+
+    collision_param_path = LaunchConfiguration('params_file',default=os.path.join(agv_launch_dir,'config','collision_monitor_params.yaml'))
+    collision_monitor_launch_file = os.path.join(agv_launch_dir, 'launch', 'collision_monitor.launch.py')
 
     #=============================3.声明启动launch文件，传入：地图路径、是否使用仿真时间以及nav2参数文件==============
     nav2_bringup_launch = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([nav2_bringup_dir,'/launch','/bringup_launch.py']),
+            PythonLaunchDescriptionSource(nav2_bringup_launch_file),
             launch_arguments={
-                'map': map_yaml_path,
                 'use_sim_time': use_sim_time,
                 'params_file': nav2_param_path}.items(),
         )
-    
+
+    collision_monitor_launch = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(collision_monitor_launch_file),
+            launch_arguments={
+                'use_sim_time': use_sim_time,
+                'params_file': collision_param_path}.items(),
+        )
+
     ld = LaunchDescription()
     ld.add_action(nav2_bringup_launch)
+    ld.add_action(collision_monitor_launch)
 
     return ld

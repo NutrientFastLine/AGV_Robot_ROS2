@@ -58,6 +58,6 @@ def generate_launch_description():
     # ld.add_action(astra_mini_launch)
     ld.add_action(localization_server_launch)
     ld.add_action(navigation_server_launch)
-    # ld.add_action(collision_monitor_launch)
+    ld.add_action(collision_monitor_launch)
 
     return ld

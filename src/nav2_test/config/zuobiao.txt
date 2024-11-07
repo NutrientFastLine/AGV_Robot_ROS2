@@ -1,1 +1,68 @@
 Setting estimate pose: Frame:map, Position(0.0189337, 0.00899811, 0), Orientation(0, 0, 0.00561797, 0.999984) = Angle: 0.011236
+
+[amcl-2] [WARN] [1730968324.054296560] [amcl]: New subscription discovered on topic '/particle_cloud', requesting incompatible QoS. No messages will be sent to it. Last incompatible policy: RELIABILITY_QOS_POLICY
+[bt_navigator-7] [INFO] [1730968344.754438748] [bt_navigator]: Begin navigating from current location (0.62, -0.65) to (2.09, -0.40)
+[controller_server-4] [INFO] [1730968344.786185328] [controller_server]: Received a goal, begin computing control effort.
+[controller_server-4] [WARN] [1730968344.786354541] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+[bt_navigator-7] [WARN] [1730968345.815952031] [bt_navigator_navigate_to_pose_rclcpp_node]: Timed out while waiting for action server to acknowledge goal request for compute_path_to_pose
+[planner_server-5] [INFO] [1730968345.823586300] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[planner_server-5] [WARN] [1730968346.305252643] [planner_server]: Planner loop missed its desired rate of 10.0000 Hz. Current loop rate is 2.0950 Hz
+[controller_server-4] [INFO] [1730968346.386755389] [controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1730968347.386793837] [controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1730968348.486758507] [controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1730968349.486753407] [controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1730968350.486839522] [controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1730968351.586756447] [controller_server]: Passing new path to controller.
+[controller_server-4] [INFO] [1730968352.586755608] [controller_server]: Passing new path to controller.
+[bt_navigator-7] [WARN] [1730968353.607676225] [bt_navigator_navigate_to_pose_rclcpp_node]: Timed out while waiting for action server to acknowledge goal request for compute_path_to_pose
+[planner_server-5] [INFO] [1730968353.608157882] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[bt_navigator-7] [WARN] [1730968353.628509191] [bt_navigator_navigate_to_pose_rclcpp_node]: Node timed out while executing service call to global_costmap/clear_entirely_global_costmap.
+[bt_navigator-7] [ERROR] [1730968353.650480317] [bt_navigator_navigate_to_pose_rclcpp_node]: Failed to get result for follow_path in node halt!
+[controller_server-4] [INFO] [1730968353.650909846] [local_costmap.local_costmap]: Received request to clear entirely the local_costmap
+[bt_navigator-7] [WARN] [1730968353.657051834] [BehaviorTreeEngine]: Behavior Tree tick rate 100.00 was exceeded!
+[bt_navigator-7] [WARN] [1730968353.672656815] [bt_navigator_navigate_to_pose_rclcpp_node]: Node timed out while executing service call to global_costmap/clear_entirely_global_costmap.
+[behavior_server-6] [INFO] [1730968353.675392070] [behavior_server]: Running wait
+[controller_server-4] [INFO] [1730968353.686746331] [controller_server]: Goal was canceled. Stopping the robot.
+[controller_server-4] [WARN] [1730968353.686849049] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+[planner_server-5] [INFO] [1730968353.814395897] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[controller_server-4] [WARN] [1730968354.184485701] [local_costmap.local_costmap]: Sensor origin at (0.08, 1.57 0.84) is out of map bounds (-1.40, 0.05, 0.00) to (1.57, 3.03, 0.78). The costmap cannot raytrace for it.
+[planner_server-5] [WARN] [1730968354.249337158] [planner_server]: Planner loop missed its desired rate of 10.0000 Hz. Current loop rate is 1.6379 Hz
+[controller_server-4] [WARN] [1730968354.384459415] [local_costmap.local_costmap]: Sensor origin at (0.08, 1.57 1.28) is out of map bounds (-1.40, 0.05, 0.00) to (1.57, 3.03, 0.78). The costmap cannot raytrace for it.
+
+
+[amcl-2] [WARN] [1730969415.694581166] [amcl]: New subscription discovered on topic '/particle_cloud', requesting incompatible QoS. No messages will be sent to it. Last incompatible policy: RELIABILITY_QOS_POLICY
+[bt_navigator-7] [INFO] [1730969479.775005534] [bt_navigator]: Begin navigating from current location (0.62, -0.65) to (1.60, -0.53)
+[controller_server-4] [INFO] [1730969479.806603061] [controller_server]: Received a goal, begin computing control effort.
+[controller_server-4] [WARN] [1730969479.806760823] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+[controller_server-4] [INFO] [1730969480.907074992] [controller_server]: Passing new path to controller.
+[bt_navigator-7] [WARN] [1730969481.876452560] [bt_navigator_navigate_to_pose_rclcpp_node]: Timed out while waiting for action server to acknowledge goal request for compute_path_to_pose
+[bt_navigator-7] [WARN] [1730969481.897379059] [bt_navigator_navigate_to_pose_rclcpp_node]: Node timed out while executing service call to global_costmap/clear_entirely_global_costmap.
+[controller_server-4] [INFO] [1730969481.907074074] [controller_server]: Goal was canceled. Stopping the robot.
+[controller_server-4] [WARN] [1730969481.907230396] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+[controller_server-4] [INFO] [1730969481.908243882] [local_costmap.local_costmap]: Received request to clear entirely the local_costmap
+[bt_navigator-7] [WARN] [1730969481.914717476] [BehaviorTreeEngine]: Behavior Tree tick rate 100.00 was exceeded!
+[bt_navigator-7] [WARN] [1730969481.920283729] [BehaviorTreeEngine]: Behavior Tree tick rate 100.00 was exceeded!
+[bt_navigator-7] [WARN] [1730969481.927703865] [BehaviorTreeEngine]: Behavior Tree tick rate 100.00 was exceeded!
+[bt_navigator-7] [WARN] [1730969481.929935064] [bt_navigator_navigate_to_pose_rclcpp_node]: Node timed out while executing service call to global_costmap/clear_entirely_global_costmap.
+[behavior_server-6] [INFO] [1730969481.931889875] [behavior_server]: Running spin
+[behavior_server-6] [INFO] [1730969481.933270822] [behavior_server]: Turning 1.57 for spin behavior.
+[planner_server-5] [INFO] [1730969482.346275539] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[planner_server-5] [INFO] [1730969482.348316687] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[controller_server-4] [WARN] [1730969483.026993354] [local_costmap.local_costmap]: Sensor origin at (-0.01, 0.27 0.84) is out of map bounds (-1.50, -1.25, 0.00) to (1.47, 1.73, 0.78). The costmap cannot raytrace for it.
+[controller_server-4] [WARN] [1730969483.226986982] [local_costmap.local_costmap]: Sensor origin at (-0.01, 0.26 0.90) is out of map bounds (-1.50, -1.25, 0.00) to (1.47, 1.73, 0.78). The costmap cannot raytrace for it.
+[controller_server-4] [WARN] [1730969483.426977827] [local_costmap.local_costmap]: Sensor origin at (-0.01, 0.26 0.88) is out of map bounds (-1.50, -1.25, 0.00) to (1.47, 1.73, 0.78). The costmap cannot raytrace for it.
+[controller_server-4] [WARN] [1730969483.626990784] [local_costmap.local_costmap]: Sensor origin at (-0.01, 0.26 0.85) is out of map bounds (-1.50, -1.25, 0.00) to (1.47, 1.73, 0.78). The costmap cannot raytrace for it.
+[controller_server-4] [WARN] [1730969483.826983901] [local_costmap.local_costmap]: Sensor origin at (-0.01, 0.26 0.80) is out of map bounds (-1.50, -1.25, 0.00) to (1.47, 1.73, 0.78). The costmap cannot raytrace for it.
+[behavior_server-6] [INFO] [1730969483.934548084] [behavior_server]: spin completed successfully
+[bt_navigator-7] [WARN] [1730969483.976082646] [bt_navigator_navigate_to_pose_rclcpp_node]: Timed out while waiting for action server to acknowledge goal request for compute_path_to_pose
+[planner_server-5] [INFO] [1730969483.976638045] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[bt_navigator-7] [WARN] [1730969484.016357734] [bt_navigator_navigate_to_pose_rclcpp_node]: Timed out while waiting for action server to acknowledge goal request for compute_path_to_pose
+[behavior_server-6] [INFO] [1730969484.018359617] [behavior_server]: Running wait
+[bt_navigator-7] [WARN] [1730969606.846231687] [BehaviorTreeEngine]: Behavior Tree tick rate 100.00 was exceeded!
+[bt_navigator-7] [INFO] [1730969618.535327744] [bt_navigator]: Received goal preemption request
+[bt_navigator-7] [INFO] [1730969618.536162028] [bt_navigator]: Begin navigating from current location (0.59, -0.34) to (1.40, -0.34)
+[bt_navigator-7] [ERROR] [1730969627.916564335] [bt_navigator_navigate_to_pose_rclcpp_node]: Failed to get result for wait in node halt!
+[bt_navigator-7] [INFO] [1730969627.916832979] [bt_navigator]: Goal canceled
+[bt_navigator-7] [WARN] [1730969627.916902644] [bt_navigator]: [navigate_to_pose] [ActionServer] Client requested to cancel the goal. Cancelling.
+[behavior_server-6] [INFO] [1730969627.919607130] [behavior_server]: Canceling wait
+[behavior_server-6] [WARN] [1730969627.919881758] [behavior_server]: [wait] [ActionServer] Client requested to cancel the goal. Cancelling.

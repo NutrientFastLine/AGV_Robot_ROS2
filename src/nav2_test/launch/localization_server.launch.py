@@ -9,7 +9,7 @@ from launch.substitutions import LaunchConfiguration
 def generate_launch_description():
     
     nav2_yaml = os.path.join(get_package_share_directory('nav2_test'), 'config', 'amcl.yaml')
-    map_file = os.path.join(get_package_share_directory('nav2_test'), 'maps', '325_00.yaml')
+    map_file = os.path.join(get_package_share_directory('nav2_test'), 'maps', 'map.yaml')
  
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
     autostart = LaunchConfiguration('autostart', default='True')

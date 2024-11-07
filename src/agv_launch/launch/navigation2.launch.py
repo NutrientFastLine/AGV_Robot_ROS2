@@ -13,8 +13,9 @@ def generate_launch_description():
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
     
     #=============================2.声明参数，获取配置文件路径===================================================
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false') 
+    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
 
+    map_yaml_path = os.path.join(agv_launch_dir, 'maps', 'map.yaml')
     nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(agv_launch_dir,'config','robot_nav2.yaml'))
     nav2_bringup_launch_file = os.path.join(nav2_bringup_dir, 'launch', 'bringup_launch.py')
 
@@ -25,6 +26,7 @@ def generate_launch_description():
     nav2_bringup_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(nav2_bringup_launch_file),
             launch_arguments={
+                'map': map_yaml_path,
                 'use_sim_time': use_sim_time,
                 'params_file': nav2_param_path}.items(),
         )

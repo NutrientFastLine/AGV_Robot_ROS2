@@ -39,7 +39,7 @@ class ImuNode(Node):
 
         self.imu_msg = Imu()
         self.imu_pub = self.create_publisher(Imu, '/base/imu', 10)
-        self.timer = self.create_timer(0.02, self.read_serial_data)
+        self.timer = self.create_timer(0.034, self.pub_imu_topic)
 
         self.key = 0
         self.buff = {}
@@ -62,24 +62,26 @@ class ImuNode(Node):
             self.get_logger().error("\033[31m串口打开失败\033[0m")
             raise e
 
-    def read_serial_data(self):
-        try:
-            buff_count = self.hf_imu.in_waiting
-        except Exception as e:
-            self.get_logger().error(f"exception: {e}")
-            self.get_logger().error("imu 失去连接，接触不良，或断线")
-            rclpy.shutdown()
-        else:
-            if buff_count > 0:
-                # buff_data = self.hf_imu.read(buff_count)
-                # for i in range(0, buff_count):
-                #     self.handle_serial_data(buff_data[i])
-                buff_count1 = buff_count -44
-                buff_data = self.hf_imu.read(44)
-                buff_rest = self.hf_imu.read(buff_count1)
-                buff_rest = 0
-                for i in range(0, len(buff_data)):
-                    self.handle_serial_data(buff_data[i])
+    def imu_loopprocess(self):
+
+        while rclpy.ok():
+            try:
+                buff_count = self.hf_imu.in_waiting
+                # self.get_logger().info("当前等待字节数 buff_count: {}".format(buff_count))
+            except Exception as e:
+                self.get_logger().error(f"exception: {e}")
+                self.get_logger().error("imu 失去连接，接触不良，或断线")
+                rclpy.shutdown()
+            else:
+                if buff_count > 0:
+                    buff_data = self.hf_imu.read(buff_count)
+                    for i in range(0, buff_count):
+                        self.handle_serial_data(buff_data[i])
+                    buff_count = 0
+                    rclpy.spin_once(self, timeout_sec=0.01 )
+
+    def pub_imu_topic(self):
+        self.imu_pub.publish(self.imu_msg)
 
     def handle_serial_data(self, raw_data):
         if self.python_version == '2':
@@ -157,14 +159,15 @@ class ImuNode(Node):
             self.imu_msg.linear_acceleration.y = self.acceleration[1]
             self.imu_msg.linear_acceleration.z = self.acceleration[2]
 
-            self.imu_pub.publish(self.imu_msg)
+            # self.imu_pub.publish(self.imu_msg)
 
 
 def main(args=None):
     rclpy.init(args=args)
     find_ttyUSB()
     imu_node = ImuNode("imu_driver_node")
-    rclpy.spin(imu_node)
+    imu_node.imu_loopprocess()
+    # rclpy.spin(imu_node)
 
     imu_node.destroy_node()
     rclpy.shutdown()

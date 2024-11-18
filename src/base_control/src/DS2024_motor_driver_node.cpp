@@ -272,7 +272,7 @@ int main(int argc, char **argv)
     auto node = std::make_shared<DS2024_motor_driver>("DS2024_motor_driver_node");
 
     node->enableMotor();
-    rclcpp::Rate loop_rate(20ms);
+    rclcpp::Rate loop_rate(34ms);
     while (rclcpp::ok())
     {
         node->poseUpdate();

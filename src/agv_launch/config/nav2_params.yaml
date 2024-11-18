@@ -38,7 +38,6 @@ amcl:
     z_rand: 0.5
     z_short: 0.05
     scan_topic: scan
-    map_topic: map
     set_initial_pose: true
     always_reset_initial_pose: false
     # initial_pose:
@@ -62,11 +61,10 @@ bt_navigator:
     use_sim_time: True
     global_frame: map
     robot_base_frame: base_link
+    # odom_topic: /odom
     odom_topic: /odometry/filtered
     bt_loop_duration: 10
     default_server_timeout: 20
-    default_nav_to_pose_bt_xml: /home/feiyu_orinnx/AGV_Robot_ROS2/src/agv_launch/config/behavior.xml
-    # default_nav_to_poses_bt_xml: /home/feiyu_orinnx/AGV_Robot_ROS2/src/nav2_test/config/behaviors.xml
     # 'default_nav_through_poses_bt_xml' and 'default_nav_to_pose_bt_xml' are use defaults:
     # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
     # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
@@ -162,11 +160,11 @@ controller_server:
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.26
+      max_vel_x: 0.16
       max_vel_y: 0.0
       max_vel_theta: 0.16
       min_speed_xy: 0.0
-      max_speed_xy: 0.20
+      max_speed_xy: 0.26
       min_speed_theta: 0.0
       # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
@@ -203,7 +201,7 @@ local_costmap:
   local_costmap:
     ros__parameters:
       footprint: "[ [0.45, 0.2325], [0.45, -0.2325], [-0.25, -0.2325], [-0.25, 0.2325] ]"
-      footprint_padding: 0.0
+      footprint_padding: 0.05
       update_frequency: 5.0
       publish_frequency: 2.0
       global_frame: odom
@@ -213,11 +211,22 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      plugins: ["obstacle_layer", "denoise_layer", "inflation_layer"]
-      # plugins: ["obstacle_layer", "voxel_layer", "denoise_layer", "inflation_layer"]
-      obstacle_layer:
-        plugin: "nav2_costmap_2d::ObstacleLayer"
+      # robot_radius: 0.4
+      # plugins: ["voxel_layer", "inflation_layer"]
+      plugins: ["voxel_layer", "denoise_layer", "inflation_layer"]
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 3.0
+        inflation_radius: 0.25
+      voxel_layer:
+        plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
+        publish_voxel_map: True
+        origin_z: 0.0
+        z_resolution: 0.05
+        z_voxels: 16
+        max_obstacle_height: 2.0
+        mark_threshold: 0
         observation_sources: scan
         scan:
           topic: /scan
@@ -229,55 +238,30 @@ local_costmap:
           raytrace_min_range: 0.0
           obstacle_max_range: 2.5
           obstacle_min_range: 0.0
-      # voxel_layer:
-      #   plugin: "nav2_costmap_2d::VoxelLayer"
-      #   enabled: True
-      #   footprint_clearing_enabled: true
-      #   max_obstacle_height: 2.0
-      #   publish_voxel_map: True
-      #   origin_z: 0.0
-      #   z_resolution: 0.05
-      #   z_voxels: 16
-      #   max_obstacle_height: 2.0
-      #   unknown_threshold: 15
-      #   mark_threshold: 0
-      #   observation_sources: pointcloud
-      #   combination_method: 1
-      #   pointcloud: 
-      #     topic: /camera/depth/points
-      #     max_obstacle_height: 2.0
-      #     min_obstacle_height: 0.0
-      #     obstacle_max_range: 2.5
-      #     obstacle_min_range: 0.0
-      #     raytrace_max_range: 3.0
-      #     raytrace_min_range: 0.0
-      #     clearing: True
-      #     marking: True
-      #     data_type: "PointCloud2"
       denoise_layer:
         plugin: "nav2_costmap_2d::DenoiseLayer"
         enabled: true
         minimal_group_size: 2
         group_connectivity_type: 8
-      inflation_layer:
-        plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 1.0
-        inflation_radius: 0.15
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True
       always_send_full_costmap: True
 
 global_costmap:
   global_costmap:
     ros__parameters:
       footprint: "[ [0.45, 0.2325], [0.45, -0.2325], [-0.25, -0.2325], [-0.25, 0.2325] ]"
-      footprint_padding: 0.0 
+      footprint_padding: 0.05
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
+      # robot_radius: 0.4
       resolution: 0.05
       track_unknown_space: true
-      plugins: ["static_layer", "obstacle_layer", "denoise_layer", "inflation_layer"]
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -295,19 +279,26 @@ global_costmap:
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
-        enabled: true
-        subscribe_to_updates: true
-        transform_tolerance: 0.1
-      denoise_layer:
-        plugin: "nav2_costmap_2d::DenoiseLayer"
-        enabled: true
-        minimal_group_size: 2
-        group_connectivity_type: 8
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 1.0
-        inflation_radius: 0.10
+        cost_scaling_factor: 3.0
+        inflation_radius: 0.20
       always_send_full_costmap: True
+
+map_server:
+  ros__parameters:
+    use_sim_time: True
+    # Overridden in launch by the "map" launch configuration or provided default value.
+    # To use in yaml, remove the default "map" value in the tb3_simulation_launch.py file & provide full path to map below.
+    yaml_filename: ""
+
+map_saver:
+  ros__parameters:
+    use_sim_time: True
+    save_map_timeout: 5.0
+    free_thresh_default: 0.25
+    occupied_thresh_default: 0.65
+    map_subscribe_transient_local: True
 
 planner_server:
   ros__parameters:
@@ -319,7 +310,17 @@ planner_server:
       tolerance: 0.5
       use_astar: false
       allow_unknown: true
-      
+
+smoother_server:
+  ros__parameters:
+    use_sim_time: True
+    smoother_plugins: ["simple_smoother"]
+    simple_smoother:
+      plugin: "nav2_smoother::SimpleSmoother"
+      tolerance: 1.0e-10
+      max_its: 1000
+      do_refinement: True
+
 behavior_server:
   ros__parameters:
     costmap_topic: local_costmap/costmap_raw
@@ -344,33 +345,6 @@ behavior_server:
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
-
-map_server:
-  ros__parameters:
-    use_sim_time: True
-    # Overridden in launch by the "map" launch configuration or provided default value.
-    # To use in yaml, remove the default "map" value in the tb3_simulation_launch.py file & provide full path to map below.
-    # yaml_filename: "/home/feiyu_orinnx/AGV_Robot_ROS2/src/agv_launch/maps/map.yaml"
-    yaml_filename: ""
-
-
-map_saver:
-  ros__parameters:
-    use_sim_time: True
-    save_map_timeout: 5.0
-    free_thresh_default: 0.25
-    occupied_thresh_default: 0.65
-    map_subscribe_transient_local: True
-
-smoother_server:
-  ros__parameters:
-    use_sim_time: True
-    smoother_plugins: ["simple_smoother"]
-    simple_smoother:
-      plugin: "nav2_smoother::SimpleSmoother"
-      tolerance: 1.0e-10
-      max_its: 1000
-      do_refinement: True
 
 robot_state_publisher:
   ros__parameters:
@@ -397,8 +371,8 @@ velocity_smoother:
     min_velocity: [-0.26, 0.0, -1.0]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
-    odom_topic: "/odometry/filtered"
-    # odom_topic: "/odom"
+    # odom_topic: "odom"
+    odom_topic: /odometry/filtered
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0

@@ -27,10 +27,10 @@ def generate_launch_description():
     astra_mini_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(astra_mini_launch_file)
     )
-
+    
     #=============================4. 定义并返回LaunchDescription ==========================
     ld = LaunchDescription()
-    ld.add_action(base_launch)
+    # ld.add_action(base_launch)
     # ld.add_action(astra_mini_launch)
     ld.add_action(navigation2_launch)
 

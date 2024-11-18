@@ -66,3 +66,6 @@ Setting estimate pose: Frame:map, Position(0.0189337, 0.00899811, 0), Orientatio
 [bt_navigator-7] [WARN] [1730969627.916902644] [bt_navigator]: [navigate_to_pose] [ActionServer] Client requested to cancel the goal. Cancelling.
 [behavior_server-6] [INFO] [1730969627.919607130] [behavior_server]: Canceling wait
 [behavior_server-6] [WARN] [1730969627.919881758] [behavior_server]: [wait] [ActionServer] Client requested to cancel the goal. Cancelling.
+
+
+[controller_server]: Failed to make progress

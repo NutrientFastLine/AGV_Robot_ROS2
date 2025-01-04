@@ -11,7 +11,7 @@ def generate_launch_description():
     port = "/dev/imu_base"
     
     imu_driver_node = Node(
-        package="imu_driver_py",
+        package="imu_driver",
         executable="imu_driver_node",
         name="imu_driver_node",
         parameters=[

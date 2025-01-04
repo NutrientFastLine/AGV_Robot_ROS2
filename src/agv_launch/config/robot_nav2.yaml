@@ -164,7 +164,7 @@ controller_server:
       min_vel_y: 0.0
       max_vel_x: 0.26
       max_vel_y: 0.0
-      max_vel_theta: 0.16
+      max_vel_theta: 0.26
       min_speed_xy: 0.0
       max_speed_xy: 0.20
       min_speed_theta: 0.0
@@ -317,7 +317,7 @@ planner_server:
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
       tolerance: 0.5
-      use_astar: false
+      use_astar: True
       allow_unknown: true
       
 behavior_server:

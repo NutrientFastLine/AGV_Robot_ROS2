@@ -17,7 +17,7 @@ def generate_launch_description():
     collision_monitor_launch_file = os.path.join(agv_launch_dir, 'launch', 'collision_monitor.launch.py')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    map_yaml_path = os.path.join(agv_launch_dir, 'maps', '325_00.yaml')
+    map_yaml_path = os.path.join(agv_launch_dir, 'maps', 'map.yaml')
     nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(agv_launch_dir,'config','robot_nav2.yaml'))
     # nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(agv_launch_dir,'config','nav2_params.yaml'))
     collision_param_path = LaunchConfiguration('params_file',default=os.path.join(agv_launch_dir,'config','collision_monitor_params.yaml'))

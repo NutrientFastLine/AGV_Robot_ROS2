@@ -2,7 +2,7 @@ import os
 from glob import glob
 from setuptools import find_packages, setup
 
-package_name = 'imu_driver_py'
+package_name = 'imu_driver'
 
 setup(
     name=package_name,
@@ -14,10 +14,7 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
     ],
-    install_requires=[
-        'setuptools',
-        # 'pyserial',  # 在这里添加pyserial作为依赖
-    ],
+    install_requires=['setuptools'],
     zip_safe=True,
     maintainer='feiyu',
     maintainer_email='Mr.zhu345@gmail.com',
@@ -26,7 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'imu_driver_node = imu_driver_py.imu_driver_node:main'
+            'imu_driver_node = imu_driver.imu_driver_node:main'
         ],
     },
 )

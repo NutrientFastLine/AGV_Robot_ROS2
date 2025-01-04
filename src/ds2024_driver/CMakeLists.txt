@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(base_control)
+project(ds2024_driver)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -18,23 +18,18 @@ include_directories(/usr/include/modbus)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  set(ament_cmake_cpplint_FOUND TRUE)
+  # the following line skips the linter which checks for copyrights
+  # comment the line when a copyright and license is added to all source files
+  set(ament_cmake_copyright_FOUND TRUE)
+  # the following line skips cpplint (only works in a git repo)
+  # comment the line when this package is in a git repo and when
+  # a copyright and license is added to all source files
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-# add_executable(base_control_node src/base_control_node.cpp)
-# ament_target_dependencies(base_control_node 
-#   rclcpp
-#   std_msgs
-#   geometry_msgs
-#   nav_msgs
-#   tf2
-#   tf2_ros
-# )
-
-add_executable(DS2024_motor_driver_node src/DS2024_motor_driver_node.cpp)
-ament_target_dependencies(DS2024_motor_driver_node 
+add_executable(ds2024_motor_driver_node src/ds2024_motor_driver_node.cpp)
+ament_target_dependencies(ds2024_motor_driver_node 
   rclcpp
   std_msgs
   geometry_msgs
@@ -42,10 +37,10 @@ ament_target_dependencies(DS2024_motor_driver_node
   tf2
   tf2_ros
 )
-target_link_libraries(DS2024_motor_driver_node modbus)
+target_link_libraries(ds2024_motor_driver_node modbus)
 
 install(TARGETS  
-  DS2024_motor_driver_node
+  ds2024_motor_driver_node
   # base_control_node
   DESTINATION lib/${PROJECT_NAME}
 )

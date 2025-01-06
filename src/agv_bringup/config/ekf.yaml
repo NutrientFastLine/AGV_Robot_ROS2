@@ -1,0 +1,32 @@
+### ekf config file ###
+ekf_filter_node:
+    ros__parameters:
+        debug: false
+        frequency: 50.0
+        two_d_mode: true
+        publish_acceleration: false
+        publish_tf: true
+        map_frame: map              # 如果未指定，默认为"map"
+        odom_frame: odom            # 如果未指定，默认为"odom"
+        base_link_frame: base_link  # 如果未指定，默认为"base_link"
+        world_frame: odom           # 如果未指定，默认为odom_frame的值
+
+        #x     , y     , z,
+        #roll  , pitch , yaw,
+        #vx    , vy    , vz,
+        #vroll , vpitch, vyaw,
+        #ax    , ay    , az
+
+        odom0: /base/odom
+        odom0_config: [false,  false,  false,
+                       false, false, false,
+                       true, true, false,
+                       false, false, true,
+                       false, false, false]
+
+        imu0: /base/imu
+        imu0_config: [false, false, false,
+                      false,  false,  false,
+                      false, false, false,
+                      false, false, true,
+                      false, false, false]

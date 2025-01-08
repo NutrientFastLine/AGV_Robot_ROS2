@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 from glob import glob
 import os
 
-package_name = 'agv_description'
+package_name = 'urdf_agv_description'
 
 setup(
     name=package_name,

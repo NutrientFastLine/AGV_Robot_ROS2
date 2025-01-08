@@ -13,7 +13,7 @@ def generate_launch_description():
 
     #==========启动robot_desscription URDF文件========================================================
     
-    description_pkg_share = FindPackageShare(package='agv_description').find('agv_description') 
+    description_pkg_share = FindPackageShare(package='urdf_agv_description').find('urdf_agv_description') 
     description_model_path = os.path.join(description_pkg_share, f'urdf/{"agv_base.urdf"}')
 
     urdf_model = LaunchConfiguration('model',default=description_model_path)

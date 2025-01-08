@@ -7,7 +7,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     urdf_name = "agv_base.urdf"
     # 获取默认路径
-    urdf_agv_path = get_package_share_directory('agv_description')
+    urdf_agv_path = get_package_share_directory('urdf_agv_description')
     default_model_path = urdf_agv_path + '/urdf/agv_base.urdf'
 
     # 为 Launch 声明参数

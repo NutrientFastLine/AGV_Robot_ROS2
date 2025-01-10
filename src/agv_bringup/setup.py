@@ -16,7 +16,6 @@ setup(
         (os.path.join('share', package_name, 'config'), glob('config/*.*')),
         (os.path.join('share', package_name, 'rviz2'), glob('rviz2/*.rviz')),
         (os.path.join('share', package_name, 'maps'), glob('maps/*.yaml') + glob('maps/*.pgm')),
-        (os.path.join('share', package_name, 'scripts'), glob('scripts/*.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -27,9 +26,6 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'navigation_to_pose = scripts.navigation_to_pose:main',
-            'navigation_through_poses = scripts.navigation_through_poses:main',
-            'follow_waypoints = scripts.follow_waypoints:main'
         ],
     },
 )

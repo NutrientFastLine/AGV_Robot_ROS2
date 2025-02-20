@@ -15,7 +15,7 @@ slam_toolbox:
     mode: localization #localization
 
     # if you'd like to start localizing on bringup in a map and pose
-    map_file_name: /home/feiyu_orinnx/AGV_Robot_ROS2/src/agv_bringup/maps/325_map.yaml
+    map_file_name: /home/feiyu_orinnx/AGV_Robot_ROS2/src/agv_bringup/maps/toolbox_325map
     map_start_pose: [0.0, 0.0, 0.0]
 
     debug_logging: false
@@ -23,7 +23,8 @@ slam_toolbox:
     transform_publish_period: 0.02 #if 0 never publishes odometry
     map_update_interval: 5.0
     resolution: 0.05
-    max_laser_range: 20.0 #for rastering images
+    max_laser_range: 16.0 #for rastering images
+    min_laser_range: 0.1
     minimum_time_interval: 0.5
     transform_timeout: 0.2
     tf_buffer_duration: 30.

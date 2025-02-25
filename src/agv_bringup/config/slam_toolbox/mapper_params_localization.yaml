@@ -15,7 +15,9 @@ slam_toolbox:
     mode: localization #localization
 
     # if you'd like to start localizing on bringup in a map and pose
-    map_file_name: /home/feiyu_orinnx/AGV_Robot_ROS2/src/agv_bringup/maps/toolbox_325map
+    map_file_name: /home/feiyu_orinnx/AGV_Robot_ROS2/src/agv_bringup/maps/toolbox_outside_1
+    # map_file_name: /home/feiyu_orinnx/AGV_Robot_ROS2/src/agv_bringup/maps/toolbox_outside_1
+
     map_start_pose: [0.0, 0.0, 0.0]
 
     debug_logging: false

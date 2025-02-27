@@ -8,7 +8,7 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    robot_name_in_model = 'fishbot'
+    robot_name_in_model = 'agvbot'
     package_name = 'urdf_agv_description'
     urdf_name = "agv_base_gazebo.urdf"
     pkg_share = FindPackageShare(package=package_name).find(package_name) 
@@ -39,12 +39,28 @@ def generate_launch_description():
     start_gazebo_cmd =  ExecuteProcess(
         cmd=['gazebo', '--verbose','-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so'],
         output='screen')
-
+    spawn_entity = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=[
+            '-file', '/home/cpz/test_ws/room.world/model.sdf',
+            '-entity', 'outdoor',
+        ],
+        output='screen'
+    )
     # Launch the robot
     spawn_entity_cmd = Node(
         package='gazebo_ros', 
         executable='spawn_entity.py',
-        arguments=['-entity', robot_name_in_model,  '-file', urdf_model_path ], output='screen')
+        arguments=['-entity', robot_name_in_model,  '-file', urdf_model_path, 
+                '-x', '7.483938',
+                '-y', '1.311202',
+                '-z', '0.035000',
+                '-R', '0.0',
+                '-P', '0.0',
+                '-Y', '1.609182'
+        ], 
+        output='screen')
 
     ld = LaunchDescription()
     ld.add_action(action_declare_arg_mode_path)
@@ -52,6 +68,7 @@ def generate_launch_description():
     ld.add_action(robot_state_publisher_node)
     ld.add_action(start_gazebo_cmd)
     ld.add_action(spawn_entity_cmd)
+    ld.add_action(spawn_entity)
 
 
     return ld

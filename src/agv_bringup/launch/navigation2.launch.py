@@ -15,7 +15,7 @@ def generate_launch_description():
     
     #=============================2.声明参数，获取配置文件路径===================================================
     # use_sim_time 这里要设置成true,因为gazebo是仿真环境，其时间是通过/clock话题获取，而不是系统时间
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+    use_sim_time = LaunchConfiguration('use_sim_time', default='False')
     # slam = LaunchConfiguration('slam', default='false')  
     map_yaml_path = LaunchConfiguration('map',default=os.path.join(fishbot_navigation2_dir,'maps','toolbox_outside_1.yaml'))
     # map_yaml_path = LaunchConfiguration('map',default=os.path.join(fishbot_navigation2_dir,'maps','toolbox_325map.yaml'))

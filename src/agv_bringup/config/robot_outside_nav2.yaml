@@ -52,7 +52,7 @@ bt_navigator:
     global_frame: map
     robot_base_frame: base_link
     odom_topic: /odom
-    bt_loop_duration: 20
+    bt_loop_duration: 10
     default_server_timeout: 20
     # default_nav_to_pose_bt_xml: /home/feiyu_orinnx/AGV_Robot_ROS2/src/agv_launch/config/behavior.xml
     # default_nav_to_poses_bt_xml: /home/feiyu_orinnx/AGV_Robot_ROS2/src/nav2_test/config/behaviors.xml

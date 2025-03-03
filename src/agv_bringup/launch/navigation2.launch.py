@@ -17,10 +17,10 @@ def generate_launch_description():
     # use_sim_time 这里要设置成true,因为gazebo是仿真环境，其时间是通过/clock话题获取，而不是系统时间
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
     # slam = LaunchConfiguration('slam', default='false')  
-    map_yaml_path = LaunchConfiguration('map',default=os.path.join(fishbot_navigation2_dir,'maps','toolbox_outside_1.yaml'))
-    # map_yaml_path = LaunchConfiguration('map',default=os.path.join(fishbot_navigation2_dir,'maps','toolbox_325map.yaml'))
-    # nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(fishbot_navigation2_dir,'config','robot_inside_nav2.yaml'))
-    nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(fishbot_navigation2_dir,'config','robot_outside_nav2.yaml'))
+    # map_yaml_path = LaunchConfiguration('map',default=os.path.join(fishbot_navigation2_dir,'maps','toolbox_outside_1.yaml'))
+    map_yaml_path = LaunchConfiguration('map',default=os.path.join(fishbot_navigation2_dir,'maps','toolbox_325map.yaml'))
+    nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(fishbot_navigation2_dir,'config','robot_inside_nav2.yaml'))
+    # nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(fishbot_navigation2_dir,'config','robot_outside_nav2.yaml'))
 
     #=============================3.声明启动launch文件，传入：地图路径、是否使用仿真时间以及nav2参数文件==============
     nav2_bringup_launch = IncludeLaunchDescription(

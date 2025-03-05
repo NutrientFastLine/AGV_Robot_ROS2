@@ -43,7 +43,7 @@ def generate_launch_description():
         package='gazebo_ros',
         executable='spawn_entity.py',
         arguments=[
-            '-file', '/home/cpz/test_ws/room.world/model.sdf',
+            '-file', '/home/feiyu/AGV_Robot_ROS2/src/urdf_agv_description/word/model.sdf',
             '-entity', 'outdoor',
         ],
         output='screen'
@@ -53,12 +53,12 @@ def generate_launch_description():
         package='gazebo_ros', 
         executable='spawn_entity.py',
         arguments=['-entity', robot_name_in_model,  '-file', urdf_model_path, 
-                '-x', '7.483938',
-                '-y', '1.311202',
-                '-z', '0.035000',
+                '-x', '2',
+                '-y', '0',
+                '-z', '0',
                 '-R', '0.0',
                 '-P', '0.0',
-                '-Y', '1.609182'
+                '-Y', '0'
         ], 
         output='screen')
 

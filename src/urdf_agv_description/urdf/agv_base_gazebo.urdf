@@ -1,13 +1,13 @@
 <?xml version="1.0" ?>
 <robot name="robot">
     <!-- Robot Footprint -->
-    <link name="base_footprint"/>
+    <!-- <link name="base_footprint"/>
 
     <joint name="base_joint" type="fixed">
       <parent link="base_footprint"/>
       <child link="base_link"/>
       <origin xyz="0.0 0.0 0.07" rpy="0 0 0"/>
-    </joint>
+    </joint> -->
 
     <link name="base_link">
         <visual>
@@ -252,7 +252,7 @@
           <publish_odom_tf>true</publish_odom_tf>
           <publish_wheel_tf>false</publish_wheel_tf>
           <odometry_frame>odom</odometry_frame>
-          <robot_base_frame>base_footprint</robot_base_frame>
+          <robot_base_frame>base_link</robot_base_frame>
       </plugin>
 
 

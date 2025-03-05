@@ -24,8 +24,9 @@ def generate_launch_description():
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        parameters=[{'robot_description': robot_description}]
-    )
+        parameters=[{'robot_description': robot_description, 'use_sim_time': False}],
+        arguments=['--ros-args', '--param', 'use_joint_state_publisher:=False']
+)
     # 关节状态发布节点
     joint_state_publisher_node = Node(
         package='joint_state_publisher',

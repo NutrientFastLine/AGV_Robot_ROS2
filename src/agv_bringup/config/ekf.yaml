@@ -2,7 +2,7 @@
 ekf_filter_node:
     ros__parameters:
         debug: false
-        frequency: 50.0
+        frequency: 30.0
         two_d_mode: true
         publish_acceleration: false
         publish_tf: true

@@ -23,7 +23,7 @@
     </link>
 
     <joint name="left_wheel_joint" type="continuous">
-        <origin xyz="0 0.1825 0" rpy="0 0 0"/>
+        <origin xyz="0 0.179 0" rpy="0 0 0"/>
         <parent link="base_link"/>
         <child link="left_wheel_link"/>
         <axis xyz="0 1 0"/>
@@ -42,7 +42,7 @@
     </link>
 
     <joint name="right_wheel_joint" type="continuous">
-        <origin xyz="0 -0.1825 0" rpy="0 0 0"/>
+        <origin xyz="0 -0.179 0" rpy="0 0 0"/>
         <parent link="base_link"/>
         <child link="right_wheel_link"/>
         <axis xyz="0 1 0"/>
@@ -80,10 +80,16 @@
     </link>
 
   <!-- laser joint -->
-    <joint name="laser_joint" type="fixed">
+    <!-- <joint name="laser_joint" type="fixed">
         <parent link="base_link" />
         <child link="laser_link" />
         <origin xyz="0 0 0.15" rpy="0 3.1415926 0"/>
+    </joint> -->
+    <joint name="laser_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="laser_link" />
+        <origin xyz="0 0 0.15" rpy="0 3.1415926 0"/>
+        <axis xyz="0 0 1"/>
     </joint>
 
   <!-- laser link -->

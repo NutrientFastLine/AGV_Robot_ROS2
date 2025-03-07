@@ -14,7 +14,7 @@ def generate_launch_description():
     pkg_share = FindPackageShare(package='agv_bringup').find('agv_bringup')
     
     #=====================运行节点需要的配置=======================================================================
-    # 是否使用仿真时间，我们用gazebo，这里设置成false
+    # 是否使用仿真时间，我们不用gazebo，这里设置成false
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
     # 地图的分辨率
     resolution = LaunchConfiguration('resolution', default='0.05')

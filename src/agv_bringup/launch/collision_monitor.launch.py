@@ -28,7 +28,6 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     # Environment
-    node_package_dir = get_package_share_directory('nav2_collision_monitor')
     launch_package_dir = get_package_share_directory('agv_bringup')
 
     # Constant parameters
@@ -41,21 +40,9 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
     params_file = LaunchConfiguration('params_file')
 
-    # 2. Declare the launch arguments
-    declare_namespace_cmd = DeclareLaunchArgument(
-        'namespace',
-        default_value='',
-        description='Top-level namespace')
-
-    declare_use_sim_time_cmd = DeclareLaunchArgument(
-        'use_sim_time',
-        default_value='false',
-        description='Use simulation (Gazebo) clock if true')
-
-    declare_params_file_cmd = DeclareLaunchArgument(
-        'params_file',
-        default_value=os.path.join(launch_package_dir, 'config', 'collision_monitor_params.yaml'),
-        description='Full path to the ROS2 parameters file to use for all launched nodes')
+    use_sim_time = False
+    # params_file = os.path.join(launch_package_dir,'config','collision_monitor_params.yaml')
+    params_file = os.path.join(launch_package_dir,'config','collision_monitor_params_outside.yaml')
 
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {
@@ -88,11 +75,6 @@ def generate_launch_description():
             parameters=[configured_params])
 
     ld = LaunchDescription()
-
-    # Launch arguments
-    ld.add_action(declare_namespace_cmd)
-    ld.add_action(declare_use_sim_time_cmd)
-    ld.add_action(declare_params_file_cmd)
 
     # Node launching commands
     ld.add_action(start_lifecycle_manager_cmd)

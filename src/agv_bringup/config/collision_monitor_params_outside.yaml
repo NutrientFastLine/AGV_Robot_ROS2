@@ -11,7 +11,7 @@ collision_monitor:
     polygons: ["PolygonStop", "PolygonSlow"]
     PolygonStop:
       type: "polygon"
-      points: [0.75, 0.38, 0.75, -0.38, -0.00, -0.38, -0.00, 0.38]
+      points: [0.75, 0.28, 0.75, -0.28, -0.00, -0.28, -0.00, 0.28]
       action_type: "stop"
       max_points: 3
       # min_points: 4  # max_points: 3 for Humble
@@ -19,7 +19,7 @@ collision_monitor:
       polygon_pub_topic: "polygon_stop"
     PolygonSlow:
       type: "polygon"
-      points: [0.90, 0.53, 0.90, -0.53, -0.00, -0.53, -0.00, 0.53]
+      points: [0.90, 0.38, 0.90, -0.38, -0.00, -0.38, -0.00, 0.38]
       action_type: "slowdown"
       max_points: 3
       # min_points: 4  # max_points: 3 for Humble

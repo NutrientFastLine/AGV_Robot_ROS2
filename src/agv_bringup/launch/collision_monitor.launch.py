@@ -36,13 +36,11 @@ def generate_launch_description():
 
     # Launch arguments
     # 1. Create the launch configuration variables
-    namespace = LaunchConfiguration('namespace')
-    use_sim_time = LaunchConfiguration('use_sim_time')
-    params_file = LaunchConfiguration('params_file')
-
-    use_sim_time = False
-    # params_file = os.path.join(launch_package_dir,'config','collision_monitor_params.yaml')
-    params_file = os.path.join(launch_package_dir,'config','collision_monitor_params_outside.yaml')
+    namespace = LaunchConfiguration('namespace', default='/')
+    use_sim_time = LaunchConfiguration('use_sim_time', default='False') 
+    # params_file = LaunchConfiguration('params_file',default=os.path.join(launch_package_dir,'config','collision_monitor_params.yaml'))
+    params_file = LaunchConfiguration('params_file',default=os.path.join(launch_package_dir,'config','collision_monitor_params_outside.yaml'))
+    # params_file = os.path.join(launch_package_dir,'config','collision_monitor_params_outside.yaml')
 
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {

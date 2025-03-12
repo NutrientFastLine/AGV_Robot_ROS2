@@ -80,17 +80,17 @@
     </link>
 
   <!-- laser joint -->
-    <!-- <joint name="laser_joint" type="fixed">
+    <joint name="laser_joint" type="fixed">
         <parent link="base_link" />
         <child link="laser_link" />
         <origin xyz="0 0 0.15" rpy="0 3.1415926 0"/>
-    </joint> -->
-    <joint name="laser_joint" type="continuous">
+    </joint>
+    <!-- <joint name="laser_joint" type="continuous">
         <parent link="base_link" />
         <child link="laser_link" />
         <origin xyz="0 0 0.15" rpy="0 3.1415926 0"/>
         <axis xyz="0 0 1"/>
-    </joint>
+    </joint> -->
 
   <!-- laser link -->
   <link name="laser_link">

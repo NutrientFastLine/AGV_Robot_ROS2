@@ -51,11 +51,20 @@ def generate_launch_description():
         ],
         output='screen',
         )
+
+    laser_tf_sync = Node(
+        package='laser_tf_sync',
+        executable='laser_tf_sync',
+        name='laser_tf_sync',
+        output='screen',
+    )
+
     ld = LaunchDescription()
 
     # ld.add_action(joint_state_publisher_node)
     # ld.add_action(robot_state_publisher_node)
     
     ld.add_action(sllidar_ros2_node)
+    ld.add_action(laser_tf_sync)
 
     return ld

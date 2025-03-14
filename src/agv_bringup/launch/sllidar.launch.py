@@ -9,28 +9,29 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     #==========启动robot_desscription URDF文件========================================================
     
-    # description_pkg_share = FindPackageShare(package='urdf_agv_description').find('urdf_agv_description') 
-    # description_model_path = os.path.join(description_pkg_share, f'urdf/{"agv_base.urdf"}')
+    description_pkg_share = FindPackageShare(package='urdf_agv_description').find('urdf_agv_description') 
+    description_model_path = os.path.join(description_pkg_share, f'urdf/{"agv_base.urdf"}')
 
-    # urdf_model = LaunchConfiguration('model',default=description_model_path)
+    urdf_model = LaunchConfiguration('model',default=description_model_path)
 
-    # robot_description = {
-    #     'robot_description': Command(['cat ', urdf_model])
-    # }
-    # robot_state_publisher_node = Node(
-    #     package='robot_state_publisher',
-    #     executable='robot_state_publisher',
-    #     parameters=[robot_description]
-    # )
-    # joint_state_publisher_node = Node(
-    #     package='joint_state_publisher',
-    #     executable='joint_state_publisher',
-    # )
+    robot_description = {
+        'robot_description': Command(['cat ', urdf_model])
+    }
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        parameters=[robot_description]
+    )
+    joint_state_publisher_node = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+    )
 
     channel_type =  LaunchConfiguration('channel_type', default='serial')
     serial_port = LaunchConfiguration('serial_port', default='/dev/sllidar_base')
     serial_baudrate = LaunchConfiguration('serial_baudrate', default='256000')
-    frame_id = LaunchConfiguration('frame_id', default='laser_link')
+    frame_id = LaunchConfiguration('frame_id', default='laser_link_raw')
+    scan_topic = LaunchConfiguration('scan_topic', default='scan_raw')
     inverted = LaunchConfiguration('inverted', default='false')
     angle_compensate = LaunchConfiguration('angle_compensate', default='true')
     scan_mode = LaunchConfiguration('scan_mode', default='Sensitivity')
@@ -45,6 +46,7 @@ def generate_launch_description():
                 'serial_port': serial_port,
                 'serial_baudrate': serial_baudrate,
                 'frame_id': frame_id,
+                'scan_topic': scan_topic,
                 'inverted': inverted,
                 'angle_compensate': angle_compensate
             }
@@ -59,12 +61,18 @@ def generate_launch_description():
         output='screen',
     )
 
+    static_transform_node = Node(
+        package = 'tf2_ros',
+        executable = 'static_transform_publisher',output='screen',
+        arguments = ['0', '0', '0.15', '0', '3.1415926', '0', 'base_link', 'laser_link']
+    )
+
     ld = LaunchDescription()
 
     # ld.add_action(joint_state_publisher_node)
     # ld.add_action(robot_state_publisher_node)
-    
     ld.add_action(sllidar_ros2_node)
-    ld.add_action(laser_tf_sync)
+    # ld.add_action(laser_tf_sync)
+    # ld.add_action(static_transform_node)
 
     return ld

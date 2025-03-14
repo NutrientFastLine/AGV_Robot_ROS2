@@ -16,12 +16,12 @@ def generate_launch_description():
     #=============================2.声明参数，获取配置文件路径===================================================
     use_sim_time = LaunchConfiguration('use_sim_time', default='False') 
 
-    map_yaml_path = LaunchConfiguration('map',default=os.path.join(launch_package_dir,'maps','toolbox_outside_2.yaml'))
+    map_yaml_path = LaunchConfiguration('map',default=os.path.join(launch_package_dir,'maps','map.yaml'))
     # map_yaml_path = LaunchConfiguration('map',default=os.path.join(launch_package_dir,'maps','toolbox_325map.yaml'))
     # map_yaml_path = LaunchConfiguration('map',default=os.path.join(launch_package_dir,'maps','gazebo_1.yaml'))
 
-    # nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(launch_package_dir,'config','robot_inside_nav2.yaml'))
-    nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(launch_package_dir,'config','robot_outside_nav2.yaml'))
+    nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(launch_package_dir,'config','robot_inside_nav2.yaml'))
+    # nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(launch_package_dir,'config','robot_outside_nav2.yaml'))
     # nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(launch_package_dir,'config','robot_gazebo_nav2.yaml'))
 
     #=============================3.声明启动launch文件，传入：地图路径、是否使用仿真时间以及nav2参数文件==============

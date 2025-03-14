@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
@@ -25,7 +26,7 @@ if(BUILD_TESTING)
 endif()
 
 add_executable(laser_tf_sync src/laser_tf_sync.cpp)
-ament_target_dependencies(laser_tf_sync rclcpp sensor_msgs tf2_ros geometry_msgs)
+ament_target_dependencies(laser_tf_sync rclcpp sensor_msgs nav_msgs tf2_ros geometry_msgs)
 install(TARGETS laser_tf_sync DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

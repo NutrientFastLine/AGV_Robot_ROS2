@@ -76,7 +76,20 @@ def generate_launch_description():
         remappings=[
             ('/odometry/filtered', '/odom')  # 这里重映射 odom 话题
             ],
-    )   
+    )
+
+    laser_tf_sync = Node(
+        package='laser_tf_sync',
+        executable='laser_tf_sync',
+        name='laser_tf_sync',
+        output='screen',
+    )
+
+    static_transform_node = Node(
+        package = 'tf2_ros',
+        executable = 'static_transform_publisher',output='screen',
+        arguments = ['0', '0', '0.15', '0', '3.1415926', '0', 'base_link', 'laser_link']
+    )
 
     #===============================================定义启动文件========================================================
 
@@ -84,6 +97,8 @@ def generate_launch_description():
     
     ld.add_action(joint_state_publisher_node)
     ld.add_action(robot_state_publisher_node)
+    # ld.add_action(static_transform_node)
+    ld.add_action(laser_tf_sync)
 
     ld.add_action(ds2024_driver_node)
     ld.add_action(handsfree_driver_node)    

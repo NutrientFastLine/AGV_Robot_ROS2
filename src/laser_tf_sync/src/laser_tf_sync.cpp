@@ -14,7 +14,7 @@ public:
 
         // **订阅 /scan 话题**
         scan_sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
-            "/scan_raw", qos_profile,
+            "/scan", qos_profile,
             std::bind(&LaserTfPublisher::scanCallback, this, std::placeholders::_1)
         );
 
@@ -52,15 +52,15 @@ private:
 
         scan_msg->header.stamp = current_time;
         scan_msg->header.frame_id = "laser_link";
-        // // **🔹 计算时间差（纳秒级）**
-        // int64_t time_diff_ns = (current_time - scan_time).nanoseconds();
-        // double time_diff_s = time_diff_ns * 1e-9;  // 转换为秒（双精度）
+        // **🔹 计算时间差（纳秒级）**
+        int64_t time_diff_ns = (current_time - scan_time).nanoseconds();
+        double time_diff_s = time_diff_ns * 1e-9;  // 转换为秒（双精度）
 
-        // // **🔹 输出时间差（精确到纳秒）**
-        // RCLCPP_INFO(this->get_logger(), "LaserScan time difference: %ld ns (%.9f s)", time_diff_ns, time_diff_s);
+        // **🔹 输出时间差（精确到纳秒）**
+        RCLCPP_INFO(this->get_logger(), "LaserScan time difference: %ld ns (%.9f s)", time_diff_ns, time_diff_s);
 
         // 发布修改后的消息
-        scan_pub_->publish(*scan_msg);
+        // scan_pub_->publish(*scan_msg);
 
     }
 

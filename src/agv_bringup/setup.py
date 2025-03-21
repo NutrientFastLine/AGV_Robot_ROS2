@@ -14,6 +14,7 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob('launch/*.*') + glob('launch/*/*.*')),
         (os.path.join('share', package_name, 'config'), glob('config/*.*') + glob('config/slam_toolbox/*.*')),
+        (os.path.join('share', package_name, 'config'), glob('config/*.*') + glob('config/navigation/*.*')),
         (os.path.join('share', package_name, 'rviz2'), glob('rviz2/*.rviz')),
         (os.path.join('share', package_name, 'maps'), glob('maps/*.yaml') + glob('maps/*.pgm')),
     ],

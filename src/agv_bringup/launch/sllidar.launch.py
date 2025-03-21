@@ -30,8 +30,8 @@ def generate_launch_description():
     channel_type =  LaunchConfiguration('channel_type', default='serial')
     serial_port = LaunchConfiguration('serial_port', default='/dev/sllidar_base')
     serial_baudrate = LaunchConfiguration('serial_baudrate', default='256000')
-    frame_id = LaunchConfiguration('frame_id', default='laser_link_raw')
-    scan_topic = LaunchConfiguration('scan_topic', default='scan_raw')
+    frame_id = LaunchConfiguration('frame_id', default='laser')
+    scan_topic = LaunchConfiguration('scan_topic', default='scan')
     inverted = LaunchConfiguration('inverted', default='false')
     angle_compensate = LaunchConfiguration('angle_compensate', default='true')
     scan_mode = LaunchConfiguration('scan_mode', default='Sensitivity')
@@ -64,7 +64,7 @@ def generate_launch_description():
     static_transform_node = Node(
         package = 'tf2_ros',
         executable = 'static_transform_publisher',output='screen',
-        arguments = ['0', '0', '0.15', '0', '3.1415926', '0', 'base_link', 'laser_link']
+        arguments = ['0', '0', '0.15', '0', '3.1415926', '0', 'base_link', 'laser']
     )
 
     ld = LaunchDescription()
@@ -73,6 +73,6 @@ def generate_launch_description():
     # ld.add_action(robot_state_publisher_node)
     ld.add_action(sllidar_ros2_node)
     # ld.add_action(laser_tf_sync)
-    # ld.add_action(static_transform_node)
+    ld.add_action(static_transform_node)
 
     return ld

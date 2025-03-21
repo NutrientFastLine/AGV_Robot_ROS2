@@ -1,32 +1,14 @@
 import os
+import launch_ros.actions
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
-
-    #==========启动robot_desscription URDF文件========================================================
-    
-    description_pkg_share = FindPackageShare(package='urdf_agv_description').find('urdf_agv_description') 
-    description_model_path = os.path.join(description_pkg_share, f'urdf/{"agv_base.urdf"}')
-
-    urdf_model = LaunchConfiguration('model',default=description_model_path)
-
-    robot_description = {
-        'robot_description': Command(['cat ', urdf_model])
-    }
-    robot_state_publisher_node = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        parameters=[robot_description]
-    )
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-    )
-  
 
     #=====================运行底盘节点需要的配置==========================================================
 
@@ -61,7 +43,7 @@ def generate_launch_description():
     # #==========启动robot_localization 融合odom和imu数据========================================================
 
     robot_localization_config_pkg = get_package_share_directory('agv_bringup')
-    robot_localization_config_path = os.path.join(robot_localization_config_pkg, 'config', 'ekf.yaml')
+    robot_localization_config_path = os.path.join(robot_localization_config_pkg, 'config', 'ekf_basefootprint.yaml')
 
     # 确保路径存在
     if not os.path.exists(robot_localization_config_path):
@@ -78,11 +60,42 @@ def generate_launch_description():
             ],
     )
 
-    laser_tf_sync = Node(
-        package='laser_tf_sync',
-        executable='laser_tf_sync',
-        name='laser_tf_sync',
-        output='screen',
+    #==========启动robot_desscription URDF文件========================================================
+
+    description_pkg_share = FindPackageShare(package='urdf_agv_description').find('urdf_agv_description') 
+    description_model_path = os.path.join(description_pkg_share, f'urdf/{"agv_base.urdf"}')
+
+    urdf_model = LaunchConfiguration('model',default=description_model_path)
+
+    robot_description = {
+        'robot_description': Command(['cat ', urdf_model])
+    }
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        parameters=[robot_description]
+    )
+
+    base_to_link = launch_ros.actions.Node(
+        package='tf2_ros', 
+        executable='static_transform_publisher', 
+        name='base_to_link',
+        arguments=[
+        '--x', '0',
+        '--y', '0',
+        '--z', '0.105',
+        '--yaw', '0',
+        '--pitch', '0',
+        '--roll', '0',
+        '--frame-id', 'base_footprint',
+        '--child-frame-id', 'base_link'
+        ],
+    )
+
+    joint_state_publisher_node = launch_ros.actions.Node(
+        package='joint_state_publisher', 
+        executable='joint_state_publisher', 
+        name='joint_state_publisher',
     )
 
     #===============================================定义启动文件========================================================
@@ -90,12 +103,11 @@ def generate_launch_description():
     ld = LaunchDescription()
     
     ld.add_action(robot_state_publisher_node)
-    # ld.add_action(laser_tf_sync)
-
     ld.add_action(ds2024_driver_node)
     ld.add_action(handsfree_driver_node)
 
-    ld.add_action(joint_state_publisher_node)
+    ld.add_action(base_to_link)
+    ld.add_action(joint_state_publisher_node)    
     ld.add_action(robot_localization_node)
 
     return ld

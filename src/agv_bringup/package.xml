@@ -21,7 +21,8 @@
   <exec_depend>cartographer_ros</exec_depend>
   <exec_depend>navigation2</exec_depend>
   <exec_depend>nav2_bringup</exec_depend>
-
+  <exec_depend>laser_filters</exec_depend>
+  
   <export>
     <build_type>ament_python</build_type>
   </export>

@@ -32,6 +32,6 @@ def generate_launch_description():
     ld = LaunchDescription()
     ld.add_action(base_launch)
     ld.add_action(sllidar_launch)
-    ld.add_action(navigation2_launch)
+    # ld.add_action(navigation2_launch)
 
     return ld

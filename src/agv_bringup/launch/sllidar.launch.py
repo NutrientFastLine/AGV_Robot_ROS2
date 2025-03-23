@@ -32,7 +32,7 @@ def generate_launch_description():
     serial_baudrate = LaunchConfiguration('serial_baudrate', default='256000')
     frame_id = LaunchConfiguration('frame_id', default='laser')
     scan_topic = LaunchConfiguration('scan_topic', default='scan')
-    inverted = LaunchConfiguration('inverted', default='false')
+    inverted = LaunchConfiguration('inverted', default='true')
     angle_compensate = LaunchConfiguration('angle_compensate', default='true')
     scan_mode = LaunchConfiguration('scan_mode', default='Sensitivity')
 
@@ -51,6 +51,9 @@ def generate_launch_description():
                 'angle_compensate': angle_compensate
             }
         ],
+        remappings=[
+            ('/scan', '/scan_raw'),
+        ],
         output='screen',
         )
 
@@ -64,8 +67,23 @@ def generate_launch_description():
     static_transform_node = Node(
         package = 'tf2_ros',
         executable = 'static_transform_publisher',output='screen',
-        arguments = ['0', '0', '0.15', '0', '3.1415926', '0', 'base_link', 'laser']
+        arguments = ['0.27', '0', '0.15', '0', '3.1415926', '0', 'base_link', 'laser']
     )
+
+    laser_filter_pkg_share = FindPackageShare(package='agv_bringup').find('agv_bringup') 
+    laser_filter_config_path = os.path.join(laser_filter_pkg_share, f'config/{"agv_laser_filter.yaml"}')
+
+    laser_filter_node =Node(
+            package="laser_filters",
+            executable="scan_to_scan_filter_chain",
+            parameters=[
+                laser_filter_config_path
+            ],
+            remappings=[
+                ('/scan', '/scan_raw'),
+                ('/scan_filtered', '/scan')
+            ]
+        )
 
     ld = LaunchDescription()
 
@@ -74,5 +92,6 @@ def generate_launch_description():
     ld.add_action(sllidar_ros2_node)
     # ld.add_action(laser_tf_sync)
     ld.add_action(static_transform_node)
+    ld.add_action(laser_filter_node)
 
     return ld

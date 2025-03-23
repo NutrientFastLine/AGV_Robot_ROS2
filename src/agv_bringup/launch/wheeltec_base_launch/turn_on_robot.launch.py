@@ -84,11 +84,26 @@ def generate_launch_description():
         '--x', '0',
         '--y', '0',
         '--z', '0.105',
-        '--yaw', '0',
-        '--pitch', '0',
         '--roll', '0',
+        '--pitch', '0',
+        '--yaw', '0',
         '--frame-id', 'base_footprint',
         '--child-frame-id', 'base_link'
+        ],
+    )
+    base_to_laser = launch_ros.actions.Node(
+        package='tf2_ros', 
+        executable='static_transform_publisher', 
+        name='base_to_laser',
+        arguments=[
+        '--x', '0',
+        '--y', '0',
+        '--z', '0.285',
+        '--roll', '0',
+        '--pitch', '0',
+        '--yaw', '3.1415946',
+        '--frame-id', 'base_footprint',
+        '--child-frame-id', 'laser'
         ],
     )
 
@@ -107,6 +122,7 @@ def generate_launch_description():
     ld.add_action(handsfree_driver_node)
 
     ld.add_action(base_to_link)
+    ld.add_action(base_to_laser)
     ld.add_action(joint_state_publisher_node)    
     ld.add_action(robot_localization_node)
 

@@ -14,10 +14,9 @@ def generate_launch_description():
     pointcloud_to_laserscan_dir = get_package_share_directory('pointcloud_to_laserscan')
     pointcloud_to_laserscan_launch_dir = os.path.join(pointcloud_to_laserscan_dir, 'launch')
            
-    LSC16 = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(Lslidar_launch_dir, 'lslidar_c16_launch.py')),)
-    LSC32 = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(Lslidar_launch_dir, 'lslidar_c32_launch.py')),)
+    LSCX = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(Lslidar_launch_dir, 'lslidar_cx_launch.py')),)
+
     
     point_to_scan = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(pointcloud_to_laserscan_launch_dir, 'pointcloud_to_laserscan_launch.py')),)
@@ -39,7 +38,8 @@ def generate_launch_description():
     according to the user guide file.
     2.If you are using m10 lidar, please pay attention to distinguish whether it is m10p or not.
     '''
-    ld.add_action(SLM12)
-    # ld.add_action(point_to_scan)
+#     ld.add_action(SLM12)
+    ld.add_action(LSCX)
+    ld.add_action(point_to_scan)
     return ld
 

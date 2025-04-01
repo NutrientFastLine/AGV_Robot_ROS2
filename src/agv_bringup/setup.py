@@ -16,7 +16,7 @@ setup(
         (os.path.join('share', package_name, 'config'), glob('config/*.*') + glob('config/slam_toolbox/*.*')),
         (os.path.join('share', package_name, 'config'), glob('config/*.*') + glob('config/navigation/*.*')),
         (os.path.join('share', package_name, 'rviz2'), glob('rviz2/*.rviz')),
-        (os.path.join('share', package_name, 'maps'), glob('maps/*.yaml') + glob('maps/*.pgm')),
+        (os.path.join('share', package_name, 'maps'), glob('maps/*.*') + glob('maps/xidian_3floor_maps/*.*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,

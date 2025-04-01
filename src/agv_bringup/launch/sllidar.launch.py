@@ -64,12 +64,21 @@ def generate_launch_description():
         output='screen',
     )
 
-    static_transform_node = Node(
-        package = 'tf2_ros',
-        executable = 'static_transform_publisher',output='screen',
-        arguments = ['0.27', '0', '0.15', '0', '3.1415926', '0', 'base_link', 'laser']
+    base_to_laser = Node(
+        package='tf2_ros', 
+        executable='static_transform_publisher', 
+        name='base_to_laser',
+        arguments=[
+        '--x', '0',
+        '--y', '0',
+        '--z', '0.15',
+        '--roll', '0',
+        '--pitch', '3.1415946',
+        '--yaw', '0',
+        '--frame-id', 'base_link',
+        '--child-frame-id', 'laser'
+        ],
     )
-
     laser_filter_pkg_share = FindPackageShare(package='agv_bringup').find('agv_bringup') 
     laser_filter_config_path = os.path.join(laser_filter_pkg_share, f'config/{"agv_laser_filter.yaml"}')
 
@@ -91,7 +100,7 @@ def generate_launch_description():
     # ld.add_action(robot_state_publisher_node)
     ld.add_action(sllidar_ros2_node)
     # ld.add_action(laser_tf_sync)
-    ld.add_action(static_transform_node)
+    ld.add_action(base_to_laser)
     ld.add_action(laser_filter_node)
 
     return ld

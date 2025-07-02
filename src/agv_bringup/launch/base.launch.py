@@ -78,19 +78,11 @@ def generate_launch_description():
             ],
     )
 
-    laser_tf_sync = Node(
-        package='laser_tf_sync',
-        executable='laser_tf_sync',
-        name='laser_tf_sync',
-        output='screen',
-    )
-
     #===============================================定义启动文件========================================================
 
     ld = LaunchDescription()
     
     ld.add_action(robot_state_publisher_node)
-    # ld.add_action(laser_tf_sync)
 
     ld.add_action(ds2024_driver_node)
     ld.add_action(handsfree_driver_node)
